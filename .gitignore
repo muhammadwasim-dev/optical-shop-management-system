@@ -1,0 +1,16 @@
+# Root-level ignores for the whole repo
+# Each sub-project also has its own .gitignore
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local notes that should not be pushed
+notes.local.md
+scratch/
+
+# Any stray env files at root
+.env
+.env.local

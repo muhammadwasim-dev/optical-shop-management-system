@@ -1,0 +1,32 @@
+<div class="layout-wrapper">
+  <p-menubar [model]="menuItems" styleClass="layout-topbar">
+    <ng-template pTemplate="start">
+      <span class="app-brand">
+        <i class="pi pi-eye"></i>
+        Laser Optical
+      </span>
+    </ng-template>
+    <ng-template pTemplate="end">
+      <div class="flex align-items-center gap-3">
+        <span class="user-info">
+          <i class="pi pi-user"></i>
+          {{ auth.getUser()?.name }}
+          <span class="role-badge" [class.owner]="auth.isOwner()">
+            {{ auth.getUser()?.role }}
+          </span>
+        </span>
+        <p-button
+          icon="pi pi-sign-out"
+          label="Logout"
+          severity="secondary"
+          [text]="true"
+          (onClick)="auth.logout()"
+        />
+      </div>
+    </ng-template>
+  </p-menubar>
+
+  <main class="layout-content">
+    <router-outlet />
+  </main>
+</div>

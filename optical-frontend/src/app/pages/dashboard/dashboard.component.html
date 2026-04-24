@@ -1,0 +1,46 @@
+<div class="dashboard">
+  <h2>Welcome, {{ auth.getUser()?.name }}</h2>
+  <p class="text-color-secondary">Here's your shop overview</p>
+
+  <div class="stats-grid">
+    <p-card styleClass="stat-card">
+      <div class="stat">
+        <i class="pi pi-users stat-icon blue"></i>
+        <div>
+          <div class="stat-value">—</div>
+          <div class="stat-label">Total Customers</div>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card styleClass="stat-card">
+      <div class="stat">
+        <i class="pi pi-shopping-bag stat-icon green"></i>
+        <div>
+          <div class="stat-value">—</div>
+          <div class="stat-label">Total Orders</div>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card styleClass="stat-card">
+      <div class="stat">
+        <i class="pi pi-clock stat-icon orange"></i>
+        <div>
+          <div class="stat-value">—</div>
+          <div class="stat-label">Pending Delivery</div>
+        </div>
+      </div>
+    </p-card>
+
+    <p-card styleClass="stat-card">
+      <div class="stat">
+        <i class="pi pi-wallet stat-icon red"></i>
+        <div>
+          <div class="stat-value">—</div>
+          <div class="stat-label">Outstanding Balance</div>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</div>

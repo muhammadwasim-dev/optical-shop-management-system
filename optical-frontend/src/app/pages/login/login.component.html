@@ -1,0 +1,50 @@
+<div class="login-wrapper">
+  <p-card styleClass="login-card">
+    <ng-template pTemplate="header">
+      <div class="login-header">
+        <i class="pi pi-eye" style="font-size: 2.5rem; color: var(--primary-color)"></i>
+        <h2>Laser Optical</h2>
+        <p>Shop Management System</p>
+      </div>
+    </ng-template>
+
+    <div class="flex flex-column gap-4">
+      @if (error) {
+        <p-message severity="error" [text]="error" styleClass="w-full" />
+      }
+
+      <div class="flex flex-column gap-2">
+        <label for="username">Username</label>
+        <input
+          pInputText
+          id="username"
+          [(ngModel)]="username"
+          placeholder="Enter username"
+          (keyup.enter)="onLogin()"
+        />
+      </div>
+
+      <div class="flex flex-column gap-2">
+        <label for="password">Password</label>
+        <p-password
+          inputId="password"
+          [(ngModel)]="password"
+          placeholder="Enter password"
+          [feedback]="false"
+          [toggleMask]="true"
+          styleClass="w-full"
+          inputStyleClass="w-full"
+          (keyup.enter)="onLogin()"
+        />
+      </div>
+
+      <p-button
+        label="Login"
+        icon="pi pi-sign-in"
+        [loading]="loading"
+        (onClick)="onLogin()"
+        styleClass="w-full"
+      />
+    </div>
+  </p-card>
+</div>
