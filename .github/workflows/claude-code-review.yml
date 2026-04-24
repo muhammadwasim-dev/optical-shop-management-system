@@ -1,13 +1,14 @@
 name: Claude Code Review
 
 on:
-  pull_request:
-    types: [opened, synchronize]
-    # Optional: run only on specific paths
-    # paths:
-    #   - "optical-backend/**/*.ts"
-    #   - "optical-frontend/**/*.ts"
-    #   - "optical-frontend/**/*.html"
+  # Manual-only for now — flip back to pull_request triggers once API credits are funded.
+  workflow_dispatch:
+  # pull_request:
+  #   types: [opened, synchronize]
+  #   paths:
+  #     - "optical-backend/**/*.ts"
+  #     - "optical-frontend/**/*.ts"
+  #     - "optical-frontend/**/*.html"
 
 jobs:
   claude-review:
