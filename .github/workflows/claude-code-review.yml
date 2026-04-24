@@ -1,0 +1,57 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    # Optional: run only on specific paths
+    # paths:
+    #   - "optical-backend/**/*.ts"
+    #   - "optical-frontend/**/*.ts"
+    #   - "optical-frontend/**/*.html"
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: read
+      id-token: write
+      actions: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code Review
+        id: claude-review
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Review this pull request as if you were a senior engineer
+            performing Gate Evidence validation for an AI-DLC Bolt.
+
+            Please review:
+            - Code quality, TypeScript idioms, and NestJS / Angular conventions
+            - Potential bugs or logic errors
+            - Missing or weak error handling
+            - Authentication / authorization gaps (JWT guards, role checks)
+            - Missing integration tests for new endpoints
+            - Breaking changes to existing endpoints or schemas
+            - Inconsistent naming between backend and frontend
+            - Secrets or credentials accidentally committed
+
+            Structure your review as:
+            1. Summary (2-3 sentences overall)
+            2. Blocking issues (must fix before merge)
+            3. Non-blocking suggestions (nice to have)
+            4. What was done well
+
+            Be specific — reference file paths and line numbers where possible.
+            Use `gh pr comment` via the Bash tool to post your review.
+          claude_args: '--allowed-tools "Bash(gh issue view:*),Bash(gh search:*),Bash(gh issue list:*),Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*),Bash(gh pr list:*)"'
