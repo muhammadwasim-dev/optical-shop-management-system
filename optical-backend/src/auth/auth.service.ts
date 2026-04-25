@@ -9,7 +9,7 @@ export class AuthService implements OnModuleInit {
   constructor(private prisma: PrismaService, private jwt: JwtService) {}
 
   async onModuleInit() {
-    await this.seedOwner();
+    await this.seedUsers();
   }
 
   async login(dto: LoginDto) {
@@ -31,9 +31,9 @@ export class AuthService implements OnModuleInit {
     };
   }
 
-  private async seedOwner() {
-    const exists = await this.prisma.user.findUnique({ where: { username: 'owner' } });
-    if (!exists) {
+  private async seedUsers() {
+    const owner = await this.prisma.user.findUnique({ where: { username: 'owner' } });
+    if (!owner) {
       await this.prisma.user.create({
         data: {
           name: 'Shop Owner',
@@ -43,6 +43,19 @@ export class AuthService implements OnModuleInit {
         },
       });
       console.log('Owner account seeded: username=owner, password=owner123');
+    }
+
+    const worker = await this.prisma.user.findUnique({ where: { username: 'worker' } });
+    if (!worker) {
+      await this.prisma.user.create({
+        data: {
+          name: 'Shop Worker',
+          username: 'worker',
+          password: await bcrypt.hash('worker123', 10),
+          role: 'WORKER',
+        },
+      });
+      console.log('Worker account seeded: username=worker, password=worker123');
     }
   }
 }
