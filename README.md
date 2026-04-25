@@ -32,7 +32,7 @@ Retros: [`docs/bolt-retros/`](docs/bolt-retros/)
 Each Bolt is an independently shippable unit of work with its own Gate Evidence checklist.
 
 - [x] **Bolt 1** — Foundation & Auth
-- [ ] **Bolt 2** — Customer Management
+- [x] **Bolt 2** — Customer Management
 - [ ] **Bolt 3** — Order + Prescription Entry
 - [ ] **Bolt 4** — Receipt Generation
 - [ ] **Bolt 5** — Dashboard & Payment Tracking
@@ -84,7 +84,8 @@ Optical Shop Management System/
 │   ├── metrics-tracker.md        ← per-Bolt hours, prompts, LOC
 │   └── bolt-retros/
 │       ├── TEMPLATE.md
-│       └── bolt-1.md
+│       ├── bolt-1.md
+│       └── bolt-2.md
 ├── optical-backend/              ← NestJS + Prisma + PostgreSQL
 └── optical-frontend/             ← Angular + PrimeNG
 ```

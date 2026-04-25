@@ -34,17 +34,23 @@ At the end of every Bolt, update its row before merging. Do not backfill from me
 
 LOC excludes CLI-generated boilerplate (`app.html` splash page, default `app.controller.ts` / `app.service.ts` / `*.spec.ts` that ship with `nest new` and `ng new`).
 
-### Bolt 2 — Customer Management
+### Bolt 2 — Customer Management ✅
 
 | Metric | Value |
 |---|---|
-| Clock hours | |
-| Prompts | |
-| LOC generated | |
-| LOC hand-written | |
-| Tests added | |
-| Gate failures | |
-| Production bugs found later | |
+| Clock hours | 0.22 (~13 minutes 19 seconds, single uninterrupted run) |
+| Prompts | 1 (kickoff prompt only — see retro) |
+| LOC generated | ~720 (backend ~440, frontend ~281) |
+| LOC hand-written | 13 (post-Bolt patch to restore truncated `seedUsers()` block; 0 hand-written during the Bolt itself) |
+| Tests added | 14 (e2e integration, all 5 endpoints + happy/error paths) |
+| Gate failures | 1 (file-on-disk truncation of `auth.service.ts` discovered post-hoc during pre-walk-through file-integrity check; all 14 automated tests passed because Claude Code's in-memory copy was complete at test time) |
+| Production bugs found later | 0 (to be updated if a Bolt 2 regression surfaces in a later Bolt) |
+
+*Notes:* Bolt 2 was a single-prompt, zero-intervention run. The kickoff prompt referenced the pre-written plan at `docs/bolt-plans/bolt-2.md` (with full Gate Evidence checklist) and the methodology and scope docs — Claude Code did Mob Elaboration and Mob Construction back-to-back without further input. Three pre-existing Bolt 1 issues were caught and fixed in-flight: missing `@angular/animations` dependency, `JWT_SECRET` undefined at module-registration time during tests, and a placeholder `.env` password. Prisma 7's mandatory breaking change (datasource URL no longer allowed in `schema.prisma`) was handled by adding `prisma.config.ts` and the `@prisma/adapter-pg` driver — a deviation from the plan but not a failure.
+
+The single Gate failure was structural, not behavioural: `auth.service.ts` was written, then later truncated mid-statement by a subsequent edit. Tests still passed because Jest had already loaded the complete in-memory module before the truncation occurred. This is the most important finding of Bolt 2 and feeds two process changes for Bolt 3 (see retro).
+
+LOC counts measured via `wc -l` on new files (backend 378, frontend 278) plus an estimate of net additions in modified files (backend ~60: Customer model in schema, CustomersModule wiring in `app.module.ts`, `JwtModule.registerAsync` refactor, `ConfigService`-based `JwtStrategy`, Prisma 7 driver adapter; frontend ~3: `/customers` route entry).
 
 ### Bolt 3 — Order + Prescription Entry
 
@@ -115,7 +121,7 @@ For the case study, also estimate how long each Bolt *would have taken* in a tra
 | Bolt | Actual AI-DLC hours | Estimated traditional hours | Speedup |
 |---|---|---|---|
 | Bolt 1 | 0.67 | 12 (conservative) | ~18x |
-| Bolt 2 | | | |
+| Bolt 2 | 0.22 | 14 (conservative) / 18 (realistic) | ~63x conservative / ~82x realistic |
 | Bolt 3 | | | |
 | Bolt 4 | | | |
 | Bolt 5 | | | |
@@ -123,3 +129,7 @@ For the case study, also estimate how long each Bolt *would have taken* in a tra
 | **Total** | | | |
 
 *Bolt 1 baseline rationale:* A senior developer working manually would need roughly 6–8 hours to scaffold a NestJS API with JWT + Passport + role guards + Prisma schema + migrations, and another 6–8 hours to scaffold an Angular app with PrimeNG, auth service, token interceptor, route and role guards, login UI, and protected layout. 12 hours is the conservative estimate; 16 is the realistic one. Actual Bolt 1: 40 minutes.
+
+*Bolt 2 baseline rationale:* The traditional equivalent of Bolt 2 covers (1) Prisma schema delta + migration through a Prisma 7 breaking change (~1–2h once the breaking change is diagnosed), (2) NestJS resource module with five endpoints, DTOs, validation, JWT + role guards (~3–5h), (3) 14 supertest integration tests against a real Postgres (~2–3h), (4) Angular feature module with PrimeNG DataTable, debounced search, add/edit dialogs, role-gated delete, ConfirmDialog, Toast (~5–7h), and (5) the three pre-existing-bug fixes that surfaced under load (`JwtModule.registerAsync`, missing `@angular/animations`, `.env` password) (~1h). 14 hours is the conservative estimate; 18 is the realistic one. Actual Bolt 2: 13 minutes.
+
+*Caveat on the Bolt 2 speedup figure:* The 63x–82x ratio is genuine but sets up an unrealistic comparison going forward. Bolt 2 was an unusually clean second Bolt because (a) the DDD skeleton, auth scaffolding, and PrimeNG layout from Bolt 1 were already in place, (b) the plan with full Gate Evidence checklist was authored before the kickoff prompt — half the cognitive work was already done — and (c) the scope was a textbook CRUD with no novel domain logic. Bolt 3 (Order + Prescription Entry) touches the actual handwritten-card translation and is the first Bolt where we expect the speedup to compress, not because AI-DLC slows down but because the traditional baseline becomes faster too (CRUD-heavy work has less ambient ambiguity than prescription modeling). Treat the Bolt 2 ratio as the upper bound of what AI-DLC achieves on well-scaffolded incremental work, not as a project-wide claim.
