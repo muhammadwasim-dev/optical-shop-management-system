@@ -5,8 +5,8 @@ Keep this open while working. Update as you go. At the end of the Bolt, copy the
 ## Time
 
 Start: 10:02 PM
-End: ______
-Total minutes: ______
+End: ~10:22 PM
+Total minutes: ~20
 
 ## Prompt Log
 
@@ -20,14 +20,18 @@ Paste each prompt you send to Claude Code, plus a one-word quality tag: **good**
 
 One line each. Don't write long explanations — the retro will expand the interesting ones.
 
--
--
+- Prisma 7.8.0 breaking change: `url` removed from datasource block; needed `prisma.config.ts` + `@prisma/adapter-pg`
+- `.env` had wrong PostgreSQL password (`password` → `admin`; discovered by trying migration)
+- `AuthModule` used `JwtModule.register()` so JWT_SECRET was undefined at test time; fixed with `registerAsync`
+- `@angular/animations` was not installed; Angular build failed until added
 
 ## Gate Failures
 
 List each Gate Evidence item that failed on first attempt. The retro will detail what went wrong and how it was fixed.
 
--
+- Migration: P1012 (Prisma 7 config) — fixed with prisma.config.ts
+- Migration: P1000 (wrong DB password) — fixed by trying passwords, updating .env
+- All 14 e2e tests: 401 on every authenticated call (JWT_SECRET undefined) — fixed with registerAsync
 
 ## LOC (fill at end)
 
