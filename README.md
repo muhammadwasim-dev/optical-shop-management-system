@@ -33,6 +33,8 @@ Each Bolt is an independently shippable unit of work with its own Gate Evidence 
 
 - [x] **Bolt 1** — Foundation & Auth
 - [x] **Bolt 2** — Customer Management
+- [x] **Bolt 2.5** — Design Foundation & Theming *(inserted, non-feature)*
+- [ ] **Bolt 2.6** — Visual Identity & Motion Design *(inserted, non-feature)*
 - [ ] **Bolt 3** — Order + Prescription Entry
 - [ ] **Bolt 4** — Receipt Generation
 - [ ] **Bolt 5** — Dashboard & Payment Tracking
@@ -82,10 +84,13 @@ Optical Shop Management System/
 │   ├── scope.md                  ← Intent, DDD model, Bolts breakdown
 │   ├── ai-dlc-methodology.md     ← how AI-DLC is applied here
 │   ├── metrics-tracker.md        ← per-Bolt hours, prompts, LOC
-│   └── bolt-retros/
-│       ├── TEMPLATE.md
-│       ├── bolt-1.md
-│       └── bolt-2.md
+│   ├── bolt-retros/
+│   │   ├── TEMPLATE.md
+│   │   ├── bolt-1.md
+│   │   ├── bolt-2.md
+│   │   └── bolt-2.5.md
+│   └── screenshots/
+│       └── bolt-2.5/             ← four manual a11y verification captures
 ├── optical-backend/              ← NestJS + Prisma + PostgreSQL
 └── optical-frontend/             ← Angular + PrimeNG
 ```

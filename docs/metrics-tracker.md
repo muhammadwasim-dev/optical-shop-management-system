@@ -52,6 +52,36 @@ The single Gate failure was structural, not behavioural: `auth.service.ts` was w
 
 LOC counts measured via `wc -l` on new files (backend 378, frontend 278) plus an estimate of net additions in modified files (backend ~60: Customer model in schema, CustomersModule wiring in `app.module.ts`, `JwtModule.registerAsync` refactor, `ConfigService`-based `JwtStrategy`, Prisma 7 driver adapter; frontend ~3: `/customers` route entry).
 
+### Bolt 2.5 — Design Foundation & Theming ✅
+
+*Inserted (non-feature) Bolt sitting between Bolts 2 and 3. Frontend-only: design tokens, light/dark theme service, layout shell, login + customers redesign, accessibility floor. Adds zero endpoints, zero domain entities, zero new pages. Plan: [`docs/bolt-plans/bolt-2.5.md`](bolt-plans/bolt-2.5.md).*
+
+| Metric | Value |
+|---|---|
+| Clock hours | 0.72 (~43 min total — 0.58 main run + 0.13 post-Bolt patch) |
+| Prompts | 2 (1 main kickoff + 1 patch kickoff) |
+| LOC generated | ~905 main run; patch was net-negative (~−335 after stripping the Angular splash boilerplate from `app.html` and orphan styles, plus +5 lines for the dark-mode `.login-btn` contrast override and a `header="Confirm Delete"` on `<p-confirmdialog>`) |
+| LOC hand-written | 0 |
+| Tests added | 0 (design-only Bolt; visual verification is Gate Evidence) |
+| Gate failures | 1 (Lighthouse manual a11y audit on first run revealed the default Angular splash from `ng new` was still in `app.html` rendering above `<router-outlet />` on every page — a Bolt 1 hygiene gap that survived through Bolts 2 and 2.5; caught only because Lighthouse walks the full DOM. Fixed in an 8-min single-prompt patch on the same branch before merge.) |
+| Production bugs found later | (to be updated) |
+
+*Notes:* Two single-prompt sessions, zero hand-written code in either. Main run drove Mob Elaboration + full construction from one kickoff; six plan open questions resolved by reading the plan (Aura already installed, indigo palette, pi-eye brand mark already in use, `osms.theme` localStorage key, ~100ms first-paint flash acceptable, theme toggle in nav). Patch run cleared the manual Lighthouse Gate Evidence — pre-patch Lighthouse caught (a) the Angular boilerplate leak, (b) `<p-confirmdialog>` missing accessible name, (c) borderline primary-button contrast in both themes. Post-patch: all four runs (login + customers × light + dark) cleared the ≥95 gate at 19/20 or 20/21, with a single residual Contrast audit failure each — deferred into Bolt 2.6's Gate Evidence (which will tighten the bar to 20/20 since Bolt 2.6 redesigns every primary CTA anyway). Bundle dropped 854 kB → 836 kB (~18 kB) as a byproduct of removing the Angular logo SVG and pill styles. Zero regressions in the 14 Bolt 2 customer tests across both sessions.
+
+### Bolt 2.6 — Visual Identity & Motion Design
+
+*Inserted (non-feature) Bolt sitting between Bolts 2.5 and 3. Frontend-only: Geist typography, brand-gradient + glow tokens, animated brand-mark, glassmorphic nav, gradient-mesh login hero, illustrated empty state, route + page-load motion, theme-toggle morph, PrimeNG entrance overrides, `prefers-reduced-motion` honoring. Adds zero endpoints, zero domain entities, zero new pages. Visual thesis: Stripe / Vercel premium aesthetic, subtle optical metaphor, generous motion. Plan: [`docs/bolt-plans/bolt-2.6.md`](bolt-plans/bolt-2.6.md).*
+
+| Metric | Value |
+|---|---|
+| Clock hours | |
+| Prompts | |
+| LOC generated | |
+| LOC hand-written | |
+| Tests added | |
+| Gate failures | |
+| Production bugs found later | |
+
 ### Bolt 3 — Order + Prescription Entry
 
 | Metric | Value |
@@ -122,6 +152,8 @@ For the case study, also estimate how long each Bolt *would have taken* in a tra
 |---|---|---|---|
 | Bolt 1 | 0.67 | 12 (conservative) | ~18x |
 | Bolt 2 | 0.22 | 14 (conservative) / 18 (realistic) | ~63x conservative / ~82x realistic |
+| Bolt 2.5 | 0.72 | 10 (conservative) / 14 (realistic) | ~14x conservative / ~19x realistic |
+| Bolt 2.6 | | 25 (conservative) / 35 (realistic) | |
 | Bolt 3 | | | |
 | Bolt 4 | | | |
 | Bolt 5 | | | |
@@ -133,3 +165,7 @@ For the case study, also estimate how long each Bolt *would have taken* in a tra
 *Bolt 2 baseline rationale:* The traditional equivalent of Bolt 2 covers (1) Prisma schema delta + migration through a Prisma 7 breaking change (~1–2h once the breaking change is diagnosed), (2) NestJS resource module with five endpoints, DTOs, validation, JWT + role guards (~3–5h), (3) 14 supertest integration tests against a real Postgres (~2–3h), (4) Angular feature module with PrimeNG DataTable, debounced search, add/edit dialogs, role-gated delete, ConfirmDialog, Toast (~5–7h), and (5) the three pre-existing-bug fixes that surfaced under load (`JwtModule.registerAsync`, missing `@angular/animations`, `.env` password) (~1h). 14 hours is the conservative estimate; 18 is the realistic one. Actual Bolt 2: 13 minutes.
 
 *Caveat on the Bolt 2 speedup figure:* The 63x–82x ratio is genuine but sets up an unrealistic comparison going forward. Bolt 2 was an unusually clean second Bolt because (a) the DDD skeleton, auth scaffolding, and PrimeNG layout from Bolt 1 were already in place, (b) the plan with full Gate Evidence checklist was authored before the kickoff prompt — half the cognitive work was already done — and (c) the scope was a textbook CRUD with no novel domain logic. Bolt 3 (Order + Prescription Entry) touches the actual handwritten-card translation and is the first Bolt where we expect the speedup to compress, not because AI-DLC slows down but because the traditional baseline becomes faster too (CRUD-heavy work has less ambient ambiguity than prescription modeling). Treat the Bolt 2 ratio as the upper bound of what AI-DLC achieves on well-scaffolded incremental work, not as a project-wide claim.
+
+*Bolt 2.5 baseline rationale:* The traditional equivalent of Bolt 2.5 covers (1) authoring a 100-line design-token CSS sheet with semantic indirection across surfaces, text, accents, borders, and elevation in light + dark variants (~2–3h), (2) building a signal-based theme service with localStorage persistence, `prefers-color-scheme` fallback, FOUC prevention via `APP_INITIALIZER`, and PrimeNG dark-mode wiring through Aura's `darkModeSelector` (~2–3h), (3) refactoring the login and customers shells to consume tokens instead of hardcoded colors, including theme toggle in the layout (~3–4h), (4) the manual a11y audit + the Bolt 1 Angular-splash hygiene patch + a contrast fix that Lighthouse forced (~1–2h), and (5) verifying zero regressions across the 14 Bolt 2 customer tests and a clean `ng build` (~1h). 10 hours is the conservative estimate; 14 is the realistic one. Actual Bolt 2.5: 43 minutes total (35 main + 8 patch).
+
+*Caveat on the Bolt 2.5 speedup figure:* The ~14x–19x ratio is honest for a design-foundation Bolt but understates one structural difference: the Bolt 2.5 plan deliberately left the *aesthetic ceiling* unspecified (the plan asked for an "accessibility floor," not an "extraordinary" result), and the output landed at the median of what the model produces for a design brief — competent but generic. A traditional designer-developer would have pushed harder on visual identity in the same hours. Bolt 2.6 (Visual Identity & Motion Design) was inserted specifically to close that gap with reference anchors (Stripe Dashboard, Vercel Dashboard, Linear) and named animations in the plan. Read the Bolt 2.5 ratio as "AI-DLC delivers a working design system at ~14–19x," not "AI-DLC delivers a *finished* design at ~14–19x" — the finished aesthetic is a Bolt 2.6 question.
