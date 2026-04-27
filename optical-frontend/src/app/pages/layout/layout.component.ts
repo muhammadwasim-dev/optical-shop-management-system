@@ -2,28 +2,23 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../core/auth/auth.service';
-import { MenubarModule } from 'primeng/menubar';
-import { ButtonModule } from 'primeng/button';
-import { MenuItem } from 'primeng/api';
+import { ThemeService } from '../../core/theme/theme.service';
 
 @Component({
   selector: 'app-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, MenubarModule, ButtonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './layout.component.html',
   styleUrl: './layout.component.scss',
 })
 export class LayoutComponent {
-  menuItems: MenuItem[] = [];
+  constructor(public auth: AuthService, public theme: ThemeService) {}
 
-  constructor(public auth: AuthService) {
-    this.menuItems = [
-      { label: 'Dashboard', icon: 'pi pi-home', routerLink: '/dashboard' },
-      { label: 'Customers', icon: 'pi pi-users', routerLink: '/customers' },
-      { label: 'Orders', icon: 'pi pi-shopping-bag', routerLink: '/orders' },
-      ...(this.auth.isOwner()
-        ? [{ label: 'Staff', icon: 'pi pi-id-card', routerLink: '/staff' }]
-        : []),
-    ];
+  get themeIcon(): string {
+    return this.theme.current() === 'dark' ? 'pi pi-sun' : 'pi pi-moon';
+  }
+
+  get themeAriaLabel(): string {
+    return this.theme.current() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
   }
 }

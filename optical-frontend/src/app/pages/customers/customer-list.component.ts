@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
@@ -18,6 +18,7 @@ import { AuthService } from '../../core/auth/auth.service';
 @Component({
   selector: 'app-customer-list',
   standalone: true,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -29,61 +30,235 @@ import { AuthService } from '../../core/auth/auth.service';
     ToastModule,
   ],
   providers: [ConfirmationService, MessageService],
+  styles: [`
+    /* ── Page ───────────────────────────────────────────── */
+    .customers-page {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    /* Page header */
+    .page-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .page-title {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+      margin: 0;
+    }
+
+    .page-subtitle {
+      margin: var(--space-1) 0 0;
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+    }
+
+    /* Table card */
+    .table-card {
+      background: var(--color-surface-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-base);
+      overflow: hidden;
+    }
+
+    /* Toolbar */
+    .table-toolbar {
+      display: flex;
+      align-items: center;
+      padding: var(--space-4) var(--space-5);
+      border-bottom: 1px solid var(--color-border-subtle);
+      background: var(--color-surface-card);
+    }
+
+    .search-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: var(--space-3);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--color-text-muted);
+      font-size: var(--font-size-sm);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding-left: 2.25rem !important;
+    }
+
+    /* Table row */
+    .table-row {
+      cursor: pointer;
+    }
+
+    /* Actions cell */
+    .actions-cell {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--space-1);
+      white-space: nowrap;
+    }
+
+    /* Empty state */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-16) var(--space-8);
+      text-align: center;
+      gap: var(--space-3);
+    }
+
+    .empty-icon {
+      font-size: 2.5rem;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-2);
+    }
+
+    .empty-title {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-primary);
+      margin: 0;
+    }
+
+    .empty-subtitle {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      margin: 0;
+    }
+
+    /* Dialog form fields */
+    .dialog-field {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+
+    .dialog-label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+    }
+
+    .field-required {
+      color: var(--color-error);
+    }
+
+    .field-error {
+      font-size: var(--font-size-xs);
+      color: var(--color-error);
+      margin: 0;
+    }
+  `],
   template: `
     <p-toast />
-    <p-confirmDialog />
+    <p-confirmDialog header="Confirm Delete" />
 
-    <div class="p-4">
-      <div class="flex justify-between items-center mb-4">
-        <h1 class="text-2xl font-semibold">Customers</h1>
+    <div class="customers-page">
+
+      <!-- Page header -->
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Customers</h1>
+          <p class="page-subtitle">Manage your customer records</p>
+        </div>
         <p-button label="Add Customer" icon="pi pi-plus" (onClick)="openAdd()" />
       </div>
 
-      <div class="mb-3">
-        <input
-          pInputText
-          type="text"
-          placeholder="Search by name or contact..."
-          class="w-full md:w-1/3"
-          [value]="searchValue"
-          (input)="onSearch($event)"
-        />
-      </div>
+      <!-- Table card -->
+      <div class="table-card">
 
-      <p-table [value]="customers" [loading]="loading" stripedRows>
-        <ng-template #header>
-          <tr>
-            <th>Name</th>
-            <th>Contact</th>
-            <th>Address</th>
-            <th>Created</th>
-            <th></th>
-          </tr>
-        </ng-template>
-        <ng-template #body let-customer>
-          <tr class="cursor-pointer" (click)="openEdit(customer)">
-            <td>{{ customer.name }}</td>
-            <td>{{ customer.contact }}</td>
-            <td>{{ customer.address || '—' }}</td>
-            <td>{{ customer.createdAt | date:'mediumDate' }}</td>
-            <td (click)="$event.stopPropagation()">
-              @if (auth.isOwner()) {
+        <!-- Toolbar: search -->
+        <div class="table-toolbar">
+          <span class="search-wrapper">
+            <i class="pi pi-search search-icon" aria-hidden="true"></i>
+            <input
+              pInputText
+              type="text"
+              placeholder="Search by name or contact…"
+              class="search-input"
+              [value]="searchValue"
+              (input)="onSearch($event)"
+              aria-label="Search customers"
+            />
+          </span>
+        </div>
+
+        <!-- Table -->
+        <p-table [value]="customers" [loading]="loading" stripedRows>
+          <ng-template #header>
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Contact</th>
+              <th scope="col">Address</th>
+              <th scope="col">Added</th>
+              <th scope="col"><span class="sr-only">Actions</span></th>
+            </tr>
+          </ng-template>
+
+          <ng-template #body let-customer>
+            <tr class="table-row" (click)="openEdit(customer)">
+              <td>{{ customer.name }}</td>
+              <td>{{ customer.contact }}</td>
+              <td>{{ customer.address || '—' }}</td>
+              <td>{{ customer.createdAt | date:'mediumDate' }}</td>
+              <td class="actions-cell" (click)="$event.stopPropagation()">
                 <p-button
-                  icon="pi pi-trash"
-                  severity="danger"
+                  icon="pi pi-pencil"
+                  severity="secondary"
                   [text]="true"
-                  (onClick)="confirmDelete(customer)"
+                  size="small"
+                  [attr.aria-label]="'Edit ' + customer.name"
+                  (onClick)="openEdit(customer)"
                 />
-              }
-            </td>
-          </tr>
-        </ng-template>
-        <ng-template #emptymessage>
-          <tr>
-            <td colspan="5" class="text-center text-gray-500 py-6">No customers found.</td>
-          </tr>
-        </ng-template>
-      </p-table>
+                @if (auth.isOwner()) {
+                  <p-button
+                    icon="pi pi-trash"
+                    severity="danger"
+                    [text]="true"
+                    size="small"
+                    [attr.aria-label]="'Delete ' + customer.name"
+                    (onClick)="confirmDelete(customer)"
+                  />
+                }
+              </td>
+            </tr>
+          </ng-template>
+
+          <ng-template #emptymessage>
+            <tr>
+              <td colspan="5" style="padding:0;border:none;">
+                <div class="empty-state">
+                  <i class="pi pi-users empty-icon" aria-hidden="true"></i>
+                  <p class="empty-title">No customers found</p>
+                  <p class="empty-subtitle">
+                    {{ searchValue ? 'Try a different search term.' : 'Add your first customer to get started.' }}
+                  </p>
+                  @if (!searchValue) {
+                    <p-button label="Add Customer" icon="pi pi-plus" size="small" (onClick)="openAdd()" />
+                  }
+                </div>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+      </div>
     </div>
 
     <!-- Add / Edit Dialog -->
@@ -94,27 +269,29 @@ import { AuthService } from '../../core/auth/auth.service';
       [style]="{ width: '450px' }"
       (onHide)="resetForm()"
     >
-      <form [formGroup]="form" class="flex flex-col gap-4 mt-2">
-        <div class="flex flex-col gap-1">
-          <label class="font-medium">Name <span class="text-red-500">*</span></label>
+      <form [formGroup]="form" class="flex flex-column gap-4 mt-2">
+
+        <div class="dialog-field">
+          <label class="dialog-label">Name <span class="field-required" aria-hidden="true">*</span></label>
           <input pInputText formControlName="name" placeholder="Full name" class="w-full" />
           @if (form.get('name')?.invalid && form.get('name')?.touched) {
-            <small class="text-red-500">Name is required</small>
+            <small class="field-error">Name is required</small>
           }
         </div>
 
-        <div class="flex flex-col gap-1">
-          <label class="font-medium">Contact <span class="text-red-500">*</span></label>
+        <div class="dialog-field">
+          <label class="dialog-label">Contact <span class="field-required" aria-hidden="true">*</span></label>
           <input pInputText formControlName="contact" placeholder="Phone number" class="w-full" />
           @if (form.get('contact')?.invalid && form.get('contact')?.touched) {
-            <small class="text-red-500">Contact is required</small>
+            <small class="field-error">Contact is required</small>
           }
         </div>
 
-        <div class="flex flex-col gap-1">
-          <label class="font-medium">Address</label>
+        <div class="dialog-field">
+          <label class="dialog-label">Address</label>
           <input pInputText formControlName="address" placeholder="Optional" class="w-full" />
         </div>
+
       </form>
 
       <ng-template #footer>

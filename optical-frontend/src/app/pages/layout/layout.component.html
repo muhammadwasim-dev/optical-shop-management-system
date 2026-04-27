@@ -1,32 +1,85 @@
 <div class="layout-wrapper">
-  <p-menubar [model]="menuItems" styleClass="layout-topbar">
-    <ng-template pTemplate="start">
-      <span class="app-brand">
-        <i class="pi pi-eye"></i>
-        Laser Optical
-      </span>
-    </ng-template>
-    <ng-template pTemplate="end">
-      <div class="flex align-items-center gap-3">
-        <span class="user-info">
-          <i class="pi pi-user"></i>
-          {{ auth.getUser()?.name }}
+
+  <!-- ── Top nav ─────────────────────────────────────── -->
+  <header class="top-nav" role="banner">
+    <div class="nav-inner">
+
+      <!-- Brand -->
+      <a class="brand" routerLink="/dashboard" aria-label="Laser Optical — go to dashboard">
+        <i class="pi pi-eye" aria-hidden="true"></i>
+        <span>Laser Optical</span>
+      </a>
+
+      <!-- Nav links -->
+      <nav class="nav-links" aria-label="Main navigation">
+        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+          <i class="pi pi-home" aria-hidden="true"></i>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-link" routerLink="/customers" routerLinkActive="active">
+          <i class="pi pi-users" aria-hidden="true"></i>
+          <span>Customers</span>
+        </a>
+        <a class="nav-link" routerLink="/orders" routerLinkActive="active">
+          <i class="pi pi-shopping-bag" aria-hidden="true"></i>
+          <span>Orders</span>
+        </a>
+        @if (auth.isOwner()) {
+          <a class="nav-link" routerLink="/staff" routerLinkActive="active">
+            <i class="pi pi-id-card" aria-hidden="true"></i>
+            <span>Staff</span>
+          </a>
+        }
+      </nav>
+
+      <!-- Actions: theme toggle + user info + logout -->
+      <div class="nav-actions">
+
+        <button
+          class="icon-btn"
+          type="button"
+          [attr.aria-label]="themeAriaLabel"
+          (click)="theme.toggle()"
+        >
+          <i [class]="themeIcon" aria-hidden="true"></i>
+        </button>
+
+        <div class="user-info" aria-label="Signed in as {{ auth.getUser()?.name }}">
+          <i class="pi pi-user" aria-hidden="true"></i>
+          <span class="user-name">{{ auth.getUser()?.name }}</span>
           <span class="role-badge" [class.owner]="auth.isOwner()">
             {{ auth.getUser()?.role }}
           </span>
-        </span>
-        <p-button
-          icon="pi pi-sign-out"
-          label="Logout"
-          severity="secondary"
-          [text]="true"
-          (onClick)="auth.logout()"
-        />
-      </div>
-    </ng-template>
-  </p-menubar>
+        </div>
 
-  <main class="layout-content">
+        <button
+          class="icon-btn logout-btn"
+          type="button"
+          aria-label="Logout"
+          (click)="auth.logout()"
+        >
+          <i class="pi pi-sign-out" aria-hidden="true"></i>
+        </button>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ── Main content ────────────────────────────────── -->
+  <main class="layout-content" id="main-content">
     <router-outlet />
   </main>
+
+  <!-- ── Footer ─────────────────────────────────────── -->
+  <footer class="layout-footer" role="contentinfo">
+    <span>Laser Optical — Shop Management System</span>
+    <span class="footer-sep" aria-hidden="true">·</span>
+    <a
+      href="https://github.com/muhammadwasim-dev"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="footer-link"
+    >AI-DLC case study</a>
+  </footer>
+
 </div>
