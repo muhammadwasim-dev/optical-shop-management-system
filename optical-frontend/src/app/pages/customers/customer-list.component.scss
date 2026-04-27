@@ -1,0 +1,212 @@
+/* ── Page — Step 10: page-load stagger reveals ──────────────────── */
+.customers-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+
+  & > * {
+    animation: fade-up 250ms var(--ease-out-soft, ease-out) both;
+  }
+  & > *:nth-child(1) { animation-delay: 0ms; }
+  & > *:nth-child(2) { animation-delay: 60ms; }
+  & > *:nth-child(3) { animation-delay: 120ms; }
+}
+
+/* ── Step 7: Page header ────────────────────────────────────────── */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+/* Step 7: gradient text on h1 in dark mode */
+.page-title {
+  font-size: var(--font-h1);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.dark .page-title {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.page-subtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ── Step 7: Table card — hover lift ───────────────────────────── */
+.table-card {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-base);
+  overflow: hidden;
+  transition:
+    transform  200ms var(--ease-out-soft, ease-out),
+    box-shadow 200ms ease-out;
+
+  &:hover {
+    transform: translateY(-2px) scale(1.002);
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(99, 102, 241, 0.08);
+  }
+}
+
+/* Toolbar */
+.table-toolbar {
+  display: flex;
+  align-items: center;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-card);
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+}
+
+.search-icon {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding-left: 2.25rem !important;
+  /* Focus ring handled globally — shows lens-aperture glow on focus */
+}
+
+/* ── Step 7: Table row hover ────────────────────────────────────── */
+/* Left-edge gradient indicator + subtle bg shift. 150ms ease.      */
+.table-row {
+  cursor: pointer;
+  position: relative;
+  transition: background 150ms ease;
+
+  td {
+    transition: background 150ms ease;
+  }
+
+  &:hover td {
+    background: rgba(99, 102, 241, 0.04) !important;
+  }
+
+  /* Left gradient edge indicator */
+  &:hover td:first-child {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--gradient-brand);
+      border-radius: 0 2px 2px 0;
+    }
+  }
+}
+
+/* Geist Mono for date and ID data — Step 2 token: Geist Mono usage */
+.mono-date {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  letter-spacing: 0;
+  color: var(--color-text-secondary);
+}
+
+/* Actions cell */
+.actions-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-1);
+  white-space: nowrap;
+}
+
+/* Step 7: Animated action icons */
+.actions-cell .p-button:hover .pi-pencil {
+  animation: nudge-right 300ms ease-out;
+}
+
+.actions-cell .p-button:hover .pi-trash {
+  animation: wiggle 350ms ease-out;
+}
+
+/* ── Step 8: Illustrated empty state ───────────────────────────── */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-16) var(--space-8);
+  text-align: center;
+  gap: var(--space-4);
+}
+
+.empty-illustration {
+  animation: float-bob 3s ease-in-out infinite;
+  margin-bottom: var(--space-2);
+}
+
+.empty-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+  letter-spacing: var(--letter-spacing-tight);
+}
+
+/* Gradient text on empty title in dark mode */
+.dark .empty-title {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.empty-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* ── Dialog form fields ─────────────────────────────────────────── */
+.dialog-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.dialog-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.field-required {
+  color: var(--color-error);
+}
+
+.field-error {
+  font-size: var(--font-size-xs);
+  color: var(--color-error);
+  margin: 0;
+}

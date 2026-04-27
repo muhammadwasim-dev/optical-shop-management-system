@@ -1,18 +1,18 @@
 <div class="layout-wrapper">
 
-  <!-- ── Top nav ─────────────────────────────────────── -->
+  <!-- ── Top nav — Step 5: glassmorphic sticky header ───────── -->
   <header class="top-nav" role="banner">
     <div class="nav-inner">
 
       <!-- Brand -->
       <a class="brand" routerLink="/dashboard" aria-label="Laser Optical — go to dashboard">
-        <i class="pi pi-eye" aria-hidden="true"></i>
-        <span>Laser Optical</span>
+        <app-brand-mark [size]="22" />
+        <span class="brand-wordmark">Laser Optical</span>
       </a>
 
       <!-- Nav links -->
       <nav class="nav-links" aria-label="Main navigation">
-        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
+        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
           <i class="pi pi-home" aria-hidden="true"></i>
           <span>Dashboard</span>
         </a>
@@ -35,16 +35,20 @@
       <!-- Actions: theme toggle + user info + logout -->
       <div class="nav-actions">
 
+        <!-- Step 11: Theme toggle morph — both icons rendered, CSS controls visibility -->
         <button
-          class="icon-btn"
+          class="icon-btn theme-btn"
           type="button"
           [attr.aria-label]="themeAriaLabel"
           (click)="theme.toggle()"
         >
-          <i [class]="themeIcon" aria-hidden="true"></i>
+          <span class="theme-icons" [class.is-dark]="isDark" aria-hidden="true">
+            <i class="pi pi-sun sun-icon"></i>
+            <i class="pi pi-moon moon-icon"></i>
+          </span>
         </button>
 
-        <div class="user-info" aria-label="Signed in as {{ auth.getUser()?.name }}">
+        <div class="user-info" [attr.aria-label]="'Signed in as ' + auth.getUser()?.name">
           <i class="pi pi-user" aria-hidden="true"></i>
           <span class="user-name">{{ auth.getUser()?.name }}</span>
           <span class="role-badge" [class.owner]="auth.isOwner()">
@@ -65,12 +69,14 @@
     </div>
   </header>
 
-  <!-- ── Main content ────────────────────────────────── -->
+  <!-- ── Main content — Step 9: route transition wrapper ────── -->
   <main class="layout-content" id="main-content">
-    <router-outlet />
+    <div class="route-wrapper" [@routeTransition]="getRouteState(outlet)">
+      <router-outlet #outlet="outlet" />
+    </div>
   </main>
 
-  <!-- ── Footer ─────────────────────────────────────── -->
+  <!-- ── Footer ─────────────────────────────────────────────── -->
   <footer class="layout-footer" role="contentinfo">
     <span>Laser Optical — Shop Management System</span>
     <span class="footer-sep" aria-hidden="true">·</span>

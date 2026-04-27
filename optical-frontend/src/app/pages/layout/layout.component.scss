@@ -7,13 +7,16 @@
   color: var(--color-text-primary);
 }
 
-/* ── Top nav ─────────────────────────────────────────────────── */
+/* ── Step 5: Top nav — glassmorphic sticky header ─────────────── */
 .top-nav {
   position: sticky;
   top: 0;
   z-index: 100;
   height: var(--nav-height);
-  background: var(--color-surface-card);
+  /* Translucent glass surface + blur */
+  background: var(--surface-glass);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
   border-bottom: 1px solid var(--color-border);
   box-shadow: var(--shadow-sm);
 }
@@ -33,20 +36,20 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-primary-500);
   text-decoration: none;
   white-space: nowrap;
   flex-shrink: 0;
+}
 
-  i { font-size: 1.4rem; }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-primary-500);
-    outline-offset: 3px;
-    border-radius: var(--radius-sm);
-  }
+.brand-wordmark {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  letter-spacing: var(--letter-spacing-tight);
 }
 
 /* Nav links */
@@ -58,6 +61,7 @@
 }
 
 .nav-link {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -67,22 +71,29 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   text-decoration: none;
+  transition: color 0.2s ease, background 0.2s ease;
 
   &:hover {
-    background: var(--color-surface-section);
+    background: rgba(99, 102, 241, 0.06);
     color: var(--color-text-primary);
   }
 
+  /* Gradient underline indicator for active route */
   &.active {
-    background: var(--color-primary-50);
-    color: var(--color-primary-600);
+    color: var(--color-text-primary);
     font-weight: var(--font-weight-semibold);
-  }
+    background: transparent;
 
-  &:focus-visible {
-    outline: 2px solid var(--color-primary-500);
-    outline-offset: 2px;
-    border-radius: var(--radius-base);
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: var(--space-3);
+      right: var(--space-3);
+      height: 2px;
+      background: var(--gradient-brand);
+      border-radius: var(--radius-full);
+    }
   }
 }
 
@@ -95,7 +106,7 @@
   flex-shrink: 0;
 }
 
-/* Icon buttons (theme toggle + logout) */
+/* Icon buttons */
 .icon-btn {
   display: flex;
   align-items: center;
@@ -109,21 +120,19 @@
   cursor: pointer;
   font-size: 1rem;
   padding: 0;
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 
   &:hover {
-    background: var(--color-surface-section);
+    background: rgba(99, 102, 241, 0.08);
     color: var(--color-text-primary);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-primary-500);
-    outline-offset: 2px;
   }
 
   &.logout-btn {
     border-color: transparent;
   }
 }
+
+/* Step 11: .theme-icons styles live in global styles.scss */
 
 /* User info */
 .user-info {
@@ -152,8 +161,8 @@
   color: var(--color-text-secondary);
 
   &.owner {
-    background: var(--color-primary-100);
-    color: var(--color-primary-500);
+    background: rgba(99, 102, 241, 0.15);
+    color: var(--color-primary-600);
   }
 }
 
@@ -161,6 +170,9 @@
 .layout-content {
   flex: 1;
   width: 100%;
+}
+
+.route-wrapper {
   max-width: var(--content-max-width);
   margin: 0 auto;
   padding: var(--space-8) var(--space-6);
@@ -176,7 +188,7 @@
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
   border-top: 1px solid var(--color-border);
-  background: var(--color-surface-card);
+  background: transparent;
 }
 
 .footer-sep { opacity: 0.4; }
@@ -186,10 +198,4 @@
   text-decoration: none;
 
   &:hover { text-decoration: underline; }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-primary-500);
-    outline-offset: 2px;
-    border-radius: var(--radius-sm);
-  }
 }

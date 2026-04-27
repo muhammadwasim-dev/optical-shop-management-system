@@ -6,11 +6,12 @@ import { AuthService } from '../../core/auth/auth.service';
 import { ThemeService } from '../../core/theme/theme.service';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
+import { BrandMarkComponent } from '../../shared/brand-mark/brand-mark.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule, PasswordModule],
+  imports: [CommonModule, FormsModule, InputTextModule, PasswordModule, BrandMarkComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -26,12 +27,12 @@ export class LoginComponent {
     public theme: ThemeService,
   ) {}
 
-  get themeIcon(): string {
-    return this.theme.current() === 'dark' ? 'pi pi-sun' : 'pi pi-moon';
+  get isDark(): boolean {
+    return this.theme.current() === 'dark';
   }
 
   get themeAriaLabel(): string {
-    return this.theme.current() === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
+    return this.isDark ? 'Switch to light mode' : 'Switch to dark mode';
   }
 
   onLogin() {
