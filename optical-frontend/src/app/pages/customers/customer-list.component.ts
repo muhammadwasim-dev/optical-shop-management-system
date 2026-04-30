@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
@@ -18,6 +18,7 @@ import { AuthService } from '../../core/auth/auth.service';
 @Component({
   selector: 'app-customer-list',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
@@ -277,6 +278,7 @@ export class CustomerListComponent implements OnInit {
     private confirmation: ConfirmationService,
     private toast: MessageService,
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -295,8 +297,8 @@ export class CustomerListComponent implements OnInit {
   loadCustomers(search?: string) {
     this.loading = true;
     this.customerService.getAll(search || undefined).subscribe({
-      next: (data) => { this.customers = data; this.loading = false; },
-      error: () => { this.loading = false; },
+      next: (data) => { this.customers = data; this.loading = false; this.cdr.markForCheck(); },
+      error: () => { this.loading = false; this.cdr.markForCheck(); },
     });
   }
 

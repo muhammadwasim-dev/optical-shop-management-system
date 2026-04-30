@@ -131,11 +131,11 @@ textarea:focus-visible,
   }
 }
 
-/* Gradient mesh drift — slow background-position shift */
+/* Gradient mesh drift — transform-based drift so gradients stay visible */
 @keyframes mesh-drift {
-  0%, 100% { background-position: 0% 0%, 100% 100%; }
-  33%       { background-position: 40% 20%, 60% 80%; }
-  66%       { background-position: 20% 60%, 80% 40%; }
+  0%, 100% { transform: translate(0%, 0%); }
+  33%       { transform: translate(-4%, 3%); }
+  66%       { transform: translate(3%, -4%); }
 }
 
 /* Toast / dialog spring entrance */

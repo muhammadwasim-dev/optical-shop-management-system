@@ -5,7 +5,7 @@
   gap: var(--space-6);
 
   & > * {
-    animation: fade-up 250ms var(--ease-out-soft, ease-out) both;
+    animation: fade-up 250ms var(--ease-out-soft, ease-out) backwards;
   }
   & > *:nth-child(1) { animation-delay: 0ms; }
   & > *:nth-child(2) { animation-delay: 60ms; }
