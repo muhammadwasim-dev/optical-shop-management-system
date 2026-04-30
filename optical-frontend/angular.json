@@ -27,6 +27,16 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "Geist-Variable.woff2",
+                "input": "node_modules/geist/dist/fonts/geist-sans",
+                "output": "/assets/fonts"
+              },
+              {
+                "glob": "GeistMono-Variable.woff2",
+                "input": "node_modules/geist/dist/fonts/geist-mono",
+                "output": "/assets/fonts"
               }
             ],
             "styles": [

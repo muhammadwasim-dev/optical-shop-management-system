@@ -68,19 +68,27 @@ LOC counts measured via `wc -l` on new files (backend 378, frontend 278) plus an
 
 *Notes:* Two single-prompt sessions, zero hand-written code in either. Main run drove Mob Elaboration + full construction from one kickoff; six plan open questions resolved by reading the plan (Aura already installed, indigo palette, pi-eye brand mark already in use, `osms.theme` localStorage key, ~100ms first-paint flash acceptable, theme toggle in nav). Patch run cleared the manual Lighthouse Gate Evidence — pre-patch Lighthouse caught (a) the Angular boilerplate leak, (b) `<p-confirmdialog>` missing accessible name, (c) borderline primary-button contrast in both themes. Post-patch: all four runs (login + customers × light + dark) cleared the ≥95 gate at 19/20 or 20/21, with a single residual Contrast audit failure each — deferred into Bolt 2.6's Gate Evidence (which will tighten the bar to 20/20 since Bolt 2.6 redesigns every primary CTA anyway). Bundle dropped 854 kB → 836 kB (~18 kB) as a byproduct of removing the Angular logo SVG and pill styles. Zero regressions in the 14 Bolt 2 customer tests across both sessions.
 
-### Bolt 2.6 — Visual Identity & Motion Design
+### Bolt 2.6 — Visual Identity & Motion Design ✅
 
 *Inserted (non-feature) Bolt sitting between Bolts 2.5 and 3. Frontend-only: Geist typography, brand-gradient + glow tokens, animated brand-mark, glassmorphic nav, gradient-mesh login hero, illustrated empty state, route + page-load motion, theme-toggle morph, PrimeNG entrance overrides, `prefers-reduced-motion` honoring. Adds zero endpoints, zero domain entities, zero new pages. Visual thesis: Stripe / Vercel premium aesthetic, subtle optical metaphor, generous motion. Plan: [`docs/bolt-plans/bolt-2.6.md`](bolt-plans/bolt-2.6.md).*
 
 | Metric | Value |
 |---|---|
-| Clock hours | |
-| Prompts | |
-| LOC generated | |
-| LOC hand-written | |
-| Tests added | |
-| Gate failures | |
-| Production bugs found later | |
+| Clock hours | 1.23 (~74 min total — 48 main + 15 Patch 1 + 11 Patch 2) |
+| Prompts | 3 (1 main kickoff + 1 Patch 1 kickoff + 1 Patch 2 kickoff; in-session "make it simple / OnPush" course-correct was a follow-up message on the Patch 2 session, not a separate construction prompt) |
+| LOC generated | ~main + net patch changes (to be measured via `git diff --stat` on bolt branch before merge) |
+| LOC hand-written | 0 |
+| Tests added | 0 (visual-identity / motion Bolt; runtime browser observation is Gate Evidence) |
+| Gate failures | 6 (5 visual defects on first construction — gradient mesh flat black, CTA sweep absent, glassmorphic nav imperceptible, table card hover lift absent, customers empty on initial page load — plus 1 NG0100 `ExpressionChangedAfterItHasBeenCheckedError` in `CustomerListComponent` only revealed when the user pasted the actual console error after Patch 1 missed the diagnosis. Patch 2's first attempt used `queueMicrotask` deferral; user pushed back ("Make it simple / ChangeStrategy") and the architectural fix landed: `ChangeDetectionStrategy.OnPush` on the standalone component.) |
+| Production bugs found later | (to be updated) |
+| Deferred Gate Evidence | 5 items — 4× Lighthouse a11y runs + 1× Lighthouse Performance run + anti-generic side-by-side + `prefers-reduced-motion` DevTools emulation — deferred to a pre-Bolt-3 mini-pass. Direct browser observation (Console + Network + DOM) caught the defects Lighthouse would have caught, plus the functional regression Lighthouse could not have caught. |
+| Bundle delta | 836 kB → 840.63 kB (+~5 kB net) |
+
+*Notes:* Three single-prompt Mob Construction sessions, zero hand-written code. Main run wrote 16 plan steps in 48 min and reported all done — the visual rendering told a different story (5 P1 visual defects + 1 P0 functional regression). Patch 1 batch-fixed five visual defects in 15 min using the patch-loop template established in Bolt 2.5's retro. Patch 2 needed two attempts: the kickoff prompt's acceptable-fix list ordered `queueMicrotask` before `OnPush` and the model anchored on the smallest-diff fix (lesson logged for Bolt 3 — order acceptable patterns by architectural correctness, canonical first). The user's in-session course-correct ("It should be a simple fix. ChangeStrategy should be there. Make it simple") landed `ChangeDetectionStrategy.OnPush` on `CustomerListComponent`, which is the canonical modern-Angular fix for signals + HTTP NG0100 cases.
+
+The "automated tests pass, user-visible behavior is broken" pattern occurred for the **third consecutive Bolt** (Bolt 2 file truncation; Bolt 2.5 Angular splash boilerplate; Bolt 2.6 5 visual defects + NG0100). Three occurrences is no longer a coincidence — it is the dominant failure class of AI-DLC on this project. The structural mitigation, now standing for Bolt 3+: direct browser observation (DevTools Console + Network + DOM) is mandatory Gate Evidence on every frontend-touching Bolt. The case study claim earned by Bolts 2 / 2.5 / 2.6: **automated tests are not Gate Evidence for what the user sees.**
+
+One mid-construction package-recommendation self-correction: the plan named `@vercel/geist-font` as the font package (does not exist on npm); the model self-corrected to `geist` (the official Vercel package) without prompting. One implementation deviation that was an upgrade, not a slip: D2 mesh drift uses `transform: translate()` (GPU-accelerated, no paint trigger) instead of the plan's `background-position` animation. Both deviations noted in retro.
 
 ### Bolt 3 — Order + Prescription Entry
 
@@ -153,7 +161,7 @@ For the case study, also estimate how long each Bolt *would have taken* in a tra
 | Bolt 1 | 0.67 | 12 (conservative) | ~18x |
 | Bolt 2 | 0.22 | 14 (conservative) / 18 (realistic) | ~63x conservative / ~82x realistic |
 | Bolt 2.5 | 0.72 | 10 (conservative) / 14 (realistic) | ~14x conservative / ~19x realistic |
-| Bolt 2.6 | | 25 (conservative) / 35 (realistic) | |
+| Bolt 2.6 | 1.23 | 25 (conservative) / 35 (realistic) | ~20x conservative / ~28x realistic |
 | Bolt 3 | | | |
 | Bolt 4 | | | |
 | Bolt 5 | | | |
@@ -169,3 +177,7 @@ For the case study, also estimate how long each Bolt *would have taken* in a tra
 *Bolt 2.5 baseline rationale:* The traditional equivalent of Bolt 2.5 covers (1) authoring a 100-line design-token CSS sheet with semantic indirection across surfaces, text, accents, borders, and elevation in light + dark variants (~2–3h), (2) building a signal-based theme service with localStorage persistence, `prefers-color-scheme` fallback, FOUC prevention via `APP_INITIALIZER`, and PrimeNG dark-mode wiring through Aura's `darkModeSelector` (~2–3h), (3) refactoring the login and customers shells to consume tokens instead of hardcoded colors, including theme toggle in the layout (~3–4h), (4) the manual a11y audit + the Bolt 1 Angular-splash hygiene patch + a contrast fix that Lighthouse forced (~1–2h), and (5) verifying zero regressions across the 14 Bolt 2 customer tests and a clean `ng build` (~1h). 10 hours is the conservative estimate; 14 is the realistic one. Actual Bolt 2.5: 43 minutes total (35 main + 8 patch).
 
 *Caveat on the Bolt 2.5 speedup figure:* The ~14x–19x ratio is honest for a design-foundation Bolt but understates one structural difference: the Bolt 2.5 plan deliberately left the *aesthetic ceiling* unspecified (the plan asked for an "accessibility floor," not an "extraordinary" result), and the output landed at the median of what the model produces for a design brief — competent but generic. A traditional designer-developer would have pushed harder on visual identity in the same hours. Bolt 2.6 (Visual Identity & Motion Design) was inserted specifically to close that gap with reference anchors (Stripe Dashboard, Vercel Dashboard, Linear) and named animations in the plan. Read the Bolt 2.5 ratio as "AI-DLC delivers a working design system at ~14–19x," not "AI-DLC delivers a *finished* design at ~14–19x" — the finished aesthetic is a Bolt 2.6 question.
+
+*Bolt 2.6 baseline rationale:* The traditional equivalent of Bolt 2.6 covers (1) integrating Geist + Geist Mono cleanly across Angular's stylesheet pipeline and resolving any FOUC (~3–4h), (2) authoring brand-gradient + glow tokens and refitting existing surfaces to consume them without contrast regressions (~4–6h), (3) the ten signature animations — iris brand-mark hover, lens-aperture focus rings, login hero stagger, page-load reveals, card hover lift, CTA gradient sweep, route transitions, theme-toggle morph, PrimeNG entrance overrides, table-row hover — each a separate design + implementation pass (~6–8h), (4) the gradient-mesh login background and glassmorphic nav, both requiring positioning + layering + performance tuning (~3–4h), (5) the illustrated empty state — SVG authoring + floating animation + gradient text (~2–3h), (6) `prefers-reduced-motion` honoring across all motion paths (~2–3h), and (7) debugging the inevitable change-detection / animation / glassmorphism / gradient interactions, equivalent to the work in Patches 1 and 2 (~3–4h). 25 hours is the conservative estimate; 35 is the realistic one. Actual Bolt 2.6: 1.23 hours (74 min — 48 main + 15 Patch 1 + 11 Patch 2).
+
+*Caveat on the Bolt 2.6 speedup figure:* The ~20x–28x ratio is honest for what Bolt 2.6 actually shipped, but it sits on top of Bolt 2.5's working design system. None of the typography, color tokens, or theme-service plumbing had to be solved twice — the first hour of any traditional design re-skin was already paid for. The same dynamic that compressed Bolt 2's ratio (a clean DDD skeleton from Bolt 1) compresses Bolt 2.6's ratio: aesthetics-heavy work piled on a working foundation is the upper-bound case for AI-DLC speedup. Bolt 3 (Order + Prescription Entry) is the first Bolt with novel domain logic — handwritten-card-to-database translation, prescription field modeling, payment lifecycle — and is where the speedup will compress not because AI-DLC slows down but because the traditional baseline becomes faster. Treat the Bolt 2.6 ratio as "AI-DLC delivers a premium visual identity at ~20–28× when the design foundation is already in place," not as a project-wide aesthetic-work claim. Five Gate Evidence items (4× Lighthouse a11y + 1× Lighthouse Performance + anti-generic side-by-side + `prefers-reduced-motion` emulation) were deferred to a pre-Bolt-3 mini-pass; if any of those surface defects requiring patches, the Bolt 2.6 actuals will be amended upward and the speedup figure recomputed accordingly.

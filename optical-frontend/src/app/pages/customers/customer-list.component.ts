@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
@@ -18,6 +18,7 @@ import { AuthService } from '../../core/auth/auth.service';
 @Component({
   selector: 'app-customer-list',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule,
@@ -30,148 +31,14 @@ import { AuthService } from '../../core/auth/auth.service';
     ToastModule,
   ],
   providers: [ConfirmationService, MessageService],
-  styles: [`
-    /* ── Page ───────────────────────────────────────────── */
-    .customers-page {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-6);
-    }
-
-    /* Page header */
-    .page-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: var(--space-4);
-    }
-
-    .page-title {
-      font-size: var(--font-size-2xl);
-      font-weight: var(--font-weight-bold);
-      color: var(--color-text-primary);
-      margin: 0;
-    }
-
-    .page-subtitle {
-      margin: var(--space-1) 0 0;
-      font-size: var(--font-size-sm);
-      color: var(--color-text-secondary);
-    }
-
-    /* Table card */
-    .table-card {
-      background: var(--color-surface-card);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-base);
-      overflow: hidden;
-    }
-
-    /* Toolbar */
-    .table-toolbar {
-      display: flex;
-      align-items: center;
-      padding: var(--space-4) var(--space-5);
-      border-bottom: 1px solid var(--color-border-subtle);
-      background: var(--color-surface-card);
-    }
-
-    .search-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 320px;
-    }
-
-    .search-icon {
-      position: absolute;
-      left: var(--space-3);
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--color-text-muted);
-      font-size: var(--font-size-sm);
-      pointer-events: none;
-    }
-
-    .search-input {
-      width: 100%;
-      padding-left: 2.25rem !important;
-    }
-
-    /* Table row */
-    .table-row {
-      cursor: pointer;
-    }
-
-    /* Actions cell */
-    .actions-cell {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: var(--space-1);
-      white-space: nowrap;
-    }
-
-    /* Empty state */
-    .empty-state {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: var(--space-16) var(--space-8);
-      text-align: center;
-      gap: var(--space-3);
-    }
-
-    .empty-icon {
-      font-size: 2.5rem;
-      color: var(--color-text-muted);
-      margin-bottom: var(--space-2);
-    }
-
-    .empty-title {
-      font-size: var(--font-size-lg);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-primary);
-      margin: 0;
-    }
-
-    .empty-subtitle {
-      font-size: var(--font-size-sm);
-      color: var(--color-text-secondary);
-      margin: 0;
-    }
-
-    /* Dialog form fields */
-    .dialog-field {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-1);
-    }
-
-    .dialog-label {
-      font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-medium);
-      color: var(--color-text-primary);
-    }
-
-    .field-required {
-      color: var(--color-error);
-    }
-
-    .field-error {
-      font-size: var(--font-size-xs);
-      color: var(--color-error);
-      margin: 0;
-    }
-  `],
+  styleUrl: './customer-list.component.scss',
   template: `
     <p-toast />
     <p-confirmDialog header="Confirm Delete" />
 
     <div class="customers-page">
 
-      <!-- Page header -->
+      <!-- Step 7: Page header with gradient title (dark mode) -->
       <div class="page-header">
         <div>
           <h1 class="page-title">Customers</h1>
@@ -180,10 +47,10 @@ import { AuthService } from '../../core/auth/auth.service';
         <p-button label="Add Customer" icon="pi pi-plus" (onClick)="openAdd()" />
       </div>
 
-      <!-- Table card -->
+      <!-- Step 7: Table card with hover lift -->
       <div class="table-card">
 
-        <!-- Toolbar: search -->
+        <!-- Toolbar: search — lens-aperture glow on focus via global CSS -->
         <div class="table-toolbar">
           <span class="search-wrapper">
             <i class="pi pi-search search-icon" aria-hidden="true"></i>
@@ -212,11 +79,13 @@ import { AuthService } from '../../core/auth/auth.service';
           </ng-template>
 
           <ng-template #body let-customer>
+            <!-- Step 7: row hover with left-edge gradient indicator -->
             <tr class="table-row" (click)="openEdit(customer)">
               <td>{{ customer.name }}</td>
               <td>{{ customer.contact }}</td>
               <td>{{ customer.address || '—' }}</td>
-              <td>{{ customer.createdAt | date:'mediumDate' }}</td>
+              <!-- Step 2: Geist Mono for date values -->
+              <td><span class="mono-date">{{ customer.createdAt | date:'mediumDate' }}</span></td>
               <td class="actions-cell" (click)="$event.stopPropagation()">
                 <p-button
                   icon="pi pi-pencil"
@@ -240,12 +109,103 @@ import { AuthService } from '../../core/auth/auth.service';
             </tr>
           </ng-template>
 
+          <!-- Step 8: Illustrated empty state -->
           <ng-template #emptymessage>
             <tr>
               <td colspan="5" style="padding:0;border:none;">
                 <div class="empty-state">
-                  <i class="pi pi-users empty-icon" aria-hidden="true"></i>
-                  <p class="empty-title">No customers found</p>
+
+                  <!-- Hand-drawn 240×160 SVG — prescription card + magnifying glass -->
+                  <svg
+                    class="empty-illustration"
+                    viewBox="0 0 240 160"
+                    width="240"
+                    height="160"
+                    xmlns="http://www.w3.org/2000/svg"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <defs>
+                      <linearGradient id="rx-grad" x1="0" y1="0" x2="240" y2="160" gradientUnits="userSpaceOnUse">
+                        <stop offset="0%"   stop-color="#6366f1"/>
+                        <stop offset="50%"  stop-color="#8b5cf6"/>
+                        <stop offset="100%" stop-color="#d946ef"/>
+                      </linearGradient>
+                    </defs>
+
+                    <!-- Prescription card body -->
+                    <rect
+                      x="16" y="16" width="148" height="108" rx="12"
+                      fill="none"
+                      stroke="url(#rx-grad)"
+                      stroke-width="2"
+                      opacity="0.6"
+                    />
+
+                    <!-- Card header bar -->
+                    <rect
+                      x="16" y="16" width="148" height="28" rx="12"
+                      fill="url(#rx-grad)"
+                      opacity="0.12"
+                    />
+                    <rect x="16" y="32" width="148" height="12" fill="url(#rx-grad)" opacity="0.12"/>
+
+                    <!-- Rx label -->
+                    <text
+                      x="38" y="38"
+                      font-size="14"
+                      font-weight="700"
+                      fill="url(#rx-grad)"
+                      opacity="0.9"
+                    >Rx</text>
+
+                    <!-- Prescription data lines -->
+                    <line x1="32" y1="62" x2="148" y2="62" stroke="url(#rx-grad)" stroke-width="1.5" opacity="0.35"/>
+                    <line x1="32" y1="78" x2="130" y2="78" stroke="url(#rx-grad)" stroke-width="1.5" opacity="0.28"/>
+                    <line x1="32" y1="94" x2="112" y2="94" stroke="url(#rx-grad)" stroke-width="1.5" opacity="0.20"/>
+                    <line x1="32" y1="110" x2="95"  y2="110" stroke="url(#rx-grad)" stroke-width="1.5" opacity="0.14"/>
+
+                    <!-- Column tick marks suggesting SPH / CYL / AXIS layout -->
+                    <line x1="80" y1="55" x2="80" y2="120" stroke="url(#rx-grad)" stroke-width="0.75" opacity="0.18" stroke-dasharray="2 3"/>
+                    <line x1="114" y1="55" x2="114" y2="120" stroke="url(#rx-grad)" stroke-width="0.75" opacity="0.18" stroke-dasharray="2 3"/>
+
+                    <!-- Magnifying glass circle -->
+                    <circle
+                      cx="185" cy="68" r="36"
+                      fill="none"
+                      stroke="url(#rx-grad)"
+                      stroke-width="2.5"
+                      opacity="0.75"
+                    />
+
+                    <!-- Magnifying glass handle -->
+                    <line
+                      x1="210" y1="93" x2="228" y2="114"
+                      stroke="url(#rx-grad)"
+                      stroke-width="3.5"
+                      stroke-linecap="round"
+                      opacity="0.75"
+                    />
+
+                    <!-- Iris / eye inside the magnifying glass -->
+                    <ellipse
+                      cx="185" cy="68" rx="18" ry="11"
+                      fill="none"
+                      stroke="url(#rx-grad)"
+                      stroke-width="1.5"
+                      opacity="0.55"
+                    />
+                    <circle
+                      cx="185" cy="68" r="5"
+                      fill="url(#rx-grad)"
+                      opacity="0.65"
+                    />
+                    <circle cx="183" cy="66" r="1.2" fill="white" opacity="0.55"/>
+                  </svg>
+
+                  <p class="empty-title">
+                    {{ searchValue ? 'No results found' : 'No customers yet' }}
+                  </p>
                   <p class="empty-subtitle">
                     {{ searchValue ? 'Try a different search term.' : 'Add your first customer to get started.' }}
                   </p>
@@ -318,6 +278,7 @@ export class CustomerListComponent implements OnInit {
     private confirmation: ConfirmationService,
     private toast: MessageService,
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
@@ -336,8 +297,8 @@ export class CustomerListComponent implements OnInit {
   loadCustomers(search?: string) {
     this.loading = true;
     this.customerService.getAll(search || undefined).subscribe({
-      next: (data) => { this.customers = data; this.loading = false; },
-      error: () => { this.loading = false; },
+      next: (data) => { this.customers = data; this.loading = false; this.cdr.markForCheck(); },
+      error: () => { this.loading = false; this.cdr.markForCheck(); },
     });
   }
 

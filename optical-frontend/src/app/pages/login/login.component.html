@@ -1,4 +1,8 @@
+<!-- Step 6: Login hero — gradient mesh background + glassmorphic card -->
 <div class="login-wrapper">
+
+  <!-- Animated gradient mesh background layers -->
+  <div class="login-bg-mesh" aria-hidden="true"></div>
 
   <!-- Theme toggle — floated top-right, visible before auth -->
   <button
@@ -7,15 +11,20 @@
     [attr.aria-label]="themeAriaLabel"
     (click)="theme.toggle()"
   >
-    <i [class]="themeIcon" aria-hidden="true"></i>
+    <!-- Step 11: Theme icon morph -->
+    <span class="theme-icons" [class.is-dark]="isDark" aria-hidden="true">
+      <i class="pi pi-sun sun-icon"></i>
+      <i class="pi pi-moon moon-icon"></i>
+    </span>
   </button>
 
+  <!-- Glassmorphic card -->
   <div class="login-card" role="main">
 
-    <!-- Brand mark -->
-    <div class="login-brand">
-      <div class="brand-icon" aria-hidden="true">
-        <i class="pi pi-eye"></i>
+    <!-- Brand section — Step 3: animated brand mark -->
+    <div class="login-brand" tabindex="-1">
+      <div class="brand-mark-wrap">
+        <app-brand-mark [size]="52" ariaLabel="Laser Optical logo" />
       </div>
       <h1 class="brand-name">Laser Optical</h1>
       <p class="brand-tagline">Sign in to manage your shop</p>
@@ -61,6 +70,7 @@
         />
       </div>
 
+      <!-- Primary CTA with gradient sweep -->
       <button
         class="login-btn"
         type="submit"

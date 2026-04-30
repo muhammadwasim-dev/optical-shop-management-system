@@ -1,3 +1,20 @@
+/* ── Step 1: Geist font-face declarations ────────────────────────── */
+@font-face {
+  font-family: 'Geist';
+  src: url('/assets/fonts/Geist-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  src: url('/assets/fonts/GeistMono-Variable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 @import "primeicons/primeicons.css";
 @import "primeflex/primeflex.css";
 @import "./styles/tokens.css";
@@ -9,23 +26,27 @@
   transition: var(--transition-theme);
 }
 
-/* Opt out of theme transition for transforms/opacity so animations stay snappy */
 *:where([class*="p-"]) {
   transition: var(--transition-theme);
 }
 
 body {
   margin: 0;
-  font-family: var(--font-family-base, var(--font-family));
+  font-family: var(--font-sans);
   background: var(--color-surface-ground);
   color: var(--color-text-primary);
-  line-height: var(--line-height-normal);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
 }
+
+h1 { font-size: var(--font-h1); }
 
 a {
   color: inherit;
@@ -42,4 +63,201 @@ a {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+
+/* Mono utility for dates, IDs, numeric data */
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  letter-spacing: 0;
+}
+
+/* ── Step 4: Lens-aperture focus ring ───────────────────────────── */
+/* Layered double-ring: gap ring + solid primary ring + soft glow.  */
+/* Reads as "looking through a lens" — replaces browser default.    */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: none !important;
+  box-shadow: var(--glow-focus) !important;
+}
+
+/* Ensure PrimeNG components use the lens-aperture ring */
+.p-inputtext:focus-visible,
+.p-button:focus-visible,
+.p-button:focus {
+  outline: none !important;
+  box-shadow: var(--glow-focus) !important;
+}
+
+/* ── Shared keyframes ───────────────────────────────────────────── */
+
+/* Page-load / stagger reveal */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Login entrance elements */
+@keyframes fade-up-sm {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Brand mark scale-in on login mount */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Gradient mesh drift — transform-based drift so gradients stay visible */
+@keyframes mesh-drift {
+  0%, 100% { transform: translate(0%, 0%); }
+  33%       { transform: translate(-4%, 3%); }
+  66%       { transform: translate(3%, -4%); }
+}
+
+/* Toast / dialog spring entrance */
+@keyframes spring-enter {
+  0%   { opacity: 0; transform: scale(0.94) translateY(8px); }
+  60%  { opacity: 1; transform: scale(1.01) translateY(-1px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Empty-state illustration floating bob */
+@keyframes float-bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+/* Action icon animations */
+@keyframes nudge-right {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  40%       { transform: translateX(2px) rotate(-3deg); }
+  70%       { transform: translateX(-1px) rotate(2deg); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  20%       { transform: rotate(-6deg); }
+  50%       { transform: rotate(6deg); }
+  80%       { transform: rotate(-4deg); }
+}
+
+/* ── Step 12: PrimeNG toast / dialog entrance overrides ─────────── */
+/* Override PrimeNG's default scale/fade with the spring ease.       */
+
+/* Toast messages */
+.p-toast-message {
+  animation: spring-enter 220ms var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) forwards !important;
+}
+
+/* Dialog container */
+.p-dialog {
+  animation: spring-enter 220ms var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) forwards !important;
+}
+
+/* ── Primary button gradient sweep ─────────────────────────────── */
+/* Override flat PrimeNG primary buttons with brand-gradient + glow. */
+/* Selector excludes text, outlined, secondary, danger, and icon-only variants. */
+.p-button:not(.p-button-text):not(.p-button-outlined):not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warn):not(.p-button-info) {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+  background-size: 200% 100% !important;
+  background-position: 0% center !important;
+  border-color: transparent !important;
+  color: #ffffff !important;
+  transition:
+    background-position 350ms ease-out,
+    box-shadow 200ms ease-out !important;
+
+  &:not(:disabled):hover {
+    background-position: 80% center !important;
+    box-shadow: var(--glow-primary) !important;
+    border-color: transparent !important;
+  }
+
+  &:not(:disabled):focus,
+  &:not(:disabled):focus-visible {
+    box-shadow: var(--glow-focus) !important;
+    outline: none !important;
+  }
+}
+
+/* ── Step 11: Theme toggle morph — shared utility ──────────────── */
+/* Used in both layout nav and login page toggle.                   */
+.theme-icons {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+
+  .sun-icon,
+  .moon-icon {
+    position: absolute;
+    transition:
+      opacity   250ms ease-out,
+      transform 250ms var(--ease-out-soft, ease-out);
+  }
+
+  .sun-icon  { opacity: 0; transform: rotate(-180deg) scale(0.5); }
+  .moon-icon { opacity: 1; transform: rotate(0)        scale(1);   }
+
+  &.is-dark {
+    .sun-icon  { opacity: 1; transform: rotate(0)       scale(1);   }
+    .moon-icon { opacity: 0; transform: rotate(180deg)  scale(0.5); }
+  }
+}
+
+/* ── Step 13: prefers-reduced-motion overrides ──────────────────── */
+/* All non-essential animations stop. Route transitions reduce to    */
+/* opacity-only (no translateY). Gradient mesh stops entirely.       */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Allow theme transitions to still work (they're intentional) */
+  .layout-wrapper,
+  .login-wrapper {
+    transition: background-color 0ms, color 0ms !important;
+  }
+
+  /* Explicitly stop the mesh drift animation */
+  .login-bg-mesh {
+    animation: none !important;
+  }
+
+  /* Stop the floating empty-state illustration */
+  .empty-illustration {
+    animation: none !important;
+  }
 }

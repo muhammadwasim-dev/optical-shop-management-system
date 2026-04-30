@@ -7,9 +7,30 @@
   min-height: 100vh;
   padding: var(--space-8) var(--space-4);
   background: var(--color-surface-ground);
+  overflow: hidden;
 }
 
-/* Theme toggle — top-right corner */
+/* ── Step 6: Animated gradient mesh background ─────────────────── */
+/* inset: -10% gives transform-drift room without clipping */
+.login-bg-mesh {
+  position: absolute;
+  inset: -10%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 65% 55% at 28% 28%, rgba(99, 102, 241, 0.42) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 65% at 72% 72%, rgba(139, 92, 246, 0.32) 0%, transparent 60%);
+  animation: mesh-drift 11s ease-in-out infinite;
+  z-index: 0;
+}
+
+/* Light mode: softer blobs */
+:host-context(:not(.dark)) .login-bg-mesh {
+  background:
+    radial-gradient(ellipse 65% 55% at 28% 28%, rgba(99, 102, 241, 0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 65% at 72% 72%, rgba(139, 92, 246, 0.07) 0%, transparent 60%);
+}
+
+/* Theme toggle */
 .theme-toggle {
   position: fixed;
   top: var(--space-4);
@@ -21,81 +42,85 @@
   height: 2.25rem;
   border-radius: var(--radius-base);
   border: 1px solid var(--color-border);
-  background: var(--color-surface-card);
+  background: var(--surface-glass);
+  backdrop-filter: blur(8px);
   color: var(--color-text-secondary);
   cursor: pointer;
   font-size: 1rem;
   padding: 0;
   z-index: 10;
-
-  &:hover {
-    background: var(--color-surface-section);
-    color: var(--color-text-primary);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-primary-500);
-    outline-offset: 2px;
-  }
 }
 
-/* ── Card ─────────────────────────────────────────────────────── */
+/* ── Glassmorphic card ─────────────────────────────────────────── */
 .login-card {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 420px;
-  background: var(--color-surface-card);
-  border: 1px solid var(--color-border);
+  background: var(--surface-glass);
+  backdrop-filter: blur(var(--blur-glass));
+  -webkit-backdrop-filter: blur(var(--blur-glass));
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-lg), 0 0 48px rgba(99, 102, 241, 0.06);
   padding: var(--space-8);
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
 }
 
-/* ── Brand mark ───────────────────────────────────────────────── */
+:host-context(:not(.dark)) .login-card {
+  border-color: rgba(99, 102, 241, 0.08);
+}
+
+/* ── Brand section ─────────────────────────────────────────────── */
 .login-brand {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   gap: var(--space-2);
+  animation: fade-up-sm 350ms var(--ease-out-soft, ease-out) both;
 }
 
-.brand-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 4rem;
-  height: 4rem;
-  border-radius: var(--radius-xl);
-  background: var(--color-primary-50);
+.brand-mark-wrap {
+  animation: scale-in 400ms var(--ease-out-soft, ease-out) both;
+  animation-delay: 50ms;
   margin-bottom: var(--space-1);
-
-  i {
-    font-size: 1.75rem;
-    color: var(--color-primary-500);
-  }
 }
 
 .brand-name {
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-h1);
   font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
   color: var(--color-text-primary);
   margin: 0;
+  animation: fade-up-sm 300ms var(--ease-out-soft, ease-out) both;
+  animation-delay: 200ms;
+}
+
+:host-context(.dark) .brand-name {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .brand-tagline {
   margin: 0;
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
+  animation: fade-up-sm 300ms var(--ease-out-soft, ease-out) both;
+  animation-delay: 260ms;
 }
 
-/* ── Form ─────────────────────────────────────────────────────── */
+/* ── Form ──────────────────────────────────────────────────────── */
 .login-form {
   display: flex;
   flex-direction: column;
   gap: var(--space-5);
+  animation: fade-up-sm 300ms var(--ease-out-soft, ease-out) both;
+  animation-delay: 350ms;
 }
 
 .form-error {
@@ -108,7 +133,6 @@
   border: 1px solid rgba(239, 68, 68, 0.25);
   color: var(--color-error);
   font-size: var(--font-size-sm);
-
   i { flex-shrink: 0; }
 }
 
@@ -124,11 +148,9 @@
   color: var(--color-text-primary);
 }
 
-.field-input {
-  width: 100%;
-}
+.field-input { width: 100%; }
 
-/* Submit button */
+/* ── Primary CTA — gradient sweep ─────────────────────────────── */
 .login-btn {
   display: flex;
   align-items: center;
@@ -138,30 +160,24 @@
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-base);
   border: none;
-  background: var(--color-primary-500);
+  background: linear-gradient(to right, #4f46e5 0%, #7c3aed 40%, #d946ef 80%, #4f46e5 100%);
+  background-size: 200% 100%;
+  background-position: 0% center;
   color: #ffffff;
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-semibold);
+  font-family: var(--font-sans);
   cursor: pointer;
   margin-top: var(--space-2);
+  transition: background-position 400ms ease-out, box-shadow 200ms ease-out;
 
   &:hover:not(:disabled) {
-    background: var(--color-primary-600);
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-primary-500);
-    outline-offset: 2px;
+    background-position: 100% center;
+    box-shadow: var(--glow-primary);
   }
 
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
   }
-}
-
-/* Dark mode: primary-500 becomes #818cf8 (light lavender); white text fails
-   WCAG AA (≈2.98:1). Switch to dark foreground for passing ratio (≈6.6:1). */
-:host-context(.dark) .login-btn {
-  color: #0f172a;
 }

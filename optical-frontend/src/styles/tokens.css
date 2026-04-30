@@ -1,7 +1,10 @@
 /*
  * Design tokens — Optical Shop Management System
- * Single source of truth for color, spacing, typography, radius, and shadow.
+ * Single source of truth for color, spacing, typography, radius, shadow, and motion.
  * Light values on :root; dark overrides on .dark (applied to <html> by ThemeService).
+ *
+ * Bolt 2.6 additions: brand gradient, glow shadows, animation easings,
+ * glassmorphism surface tokens, Geist type-scale upgrades.
  */
 
 :root {
@@ -16,6 +19,27 @@
   --color-primary-700: #4338ca;
   --color-primary-800: #3730a3;
   --color-primary-900: #312e81;
+
+  /* ── Brand gradient ──────────────────────────────────────────── */
+  /* 135 deg indigo → violet → fuchsia — used sparingly as the signature accent */
+  --gradient-brand: linear-gradient(135deg, #6366f1, #8b5cf6, #d946ef);
+
+  /* ── Glow shadows ────────────────────────────────────────────── */
+  /* Applied to primary CTAs and focused inputs */
+  --glow-primary: 0 0 20px rgba(99, 102, 241, 0.35), 0 0 40px rgba(139, 92, 246, 0.15);
+  /* Lens-aperture focus ring — the gap + solid ring + soft halo */
+  --glow-focus:
+    0 0 0 2px var(--color-surface-ground),
+    0 0 0 4px var(--color-primary-500),
+    0 0 12px 0 rgba(99, 102, 241, 0.35);
+
+  /* ── Animation easings ───────────────────────────────────────── */
+  --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);  /* spring / overshoot */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);       /* Vercel-style fast-out */
+
+  /* ── Glassmorphism ───────────────────────────────────────────── */
+  --surface-glass:  rgba(255, 255, 255, 0.72);   /* light mode: frosted white */
+  --blur-glass: 12px;
 
   /* ── Surface (Light neutrals) ────────────────────────────────── */
   --color-surface-ground:  #f8fafc;
@@ -48,7 +72,11 @@
   --space-16: 4rem;      /* 64px */
 
   /* ── Typography ──────────────────────────────────────────────── */
-  --font-family-base:      'Inter', 'Segoe UI', system-ui, sans-serif;
+  /* Bolt 2.6: Geist replaces Inter as the primary typeface */
+  --font-sans: 'Geist', 'Inter', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'Fira Code', ui-monospace, monospace;
+  --font-family-base: var(--font-sans); /* backward-compat alias */
+
   --font-size-xs:   0.75rem;   /* 12px */
   --font-size-sm:   0.875rem;  /* 14px */
   --font-size-base: 1rem;      /* 16px */
@@ -56,6 +84,12 @@
   --font-size-xl:   1.25rem;   /* 20px */
   --font-size-2xl:  1.5rem;    /* 24px */
   --font-size-3xl:  1.875rem;  /* 30px */
+
+  /* Bolt 2.6: h1 raised to 36px minimum, tight tracking, generous body height */
+  --font-h1:              2.25rem;  /* 36px */
+  --letter-spacing-tight: -0.02em;
+  --line-height-body:     1.6;
+
   --font-weight-normal:   400;
   --font-weight-medium:   500;
   --font-weight-semibold: 600;
@@ -88,16 +122,16 @@
 /* ── Dark mode overrides ─────────────────────────────────────────── */
 .dark {
   /* Surface */
-  --color-surface-ground:  #0f172a;
-  --color-surface-section: #1e293b;
-  --color-surface-card:    #1e293b;
-  --color-border:          #334155;
-  --color-border-subtle:   #1e293b;
+  --color-surface-ground:  #0a0a0f;  /* near-black base for gradient mesh */
+  --color-surface-section: #111118;
+  --color-surface-card:    #131320;
+  --color-border:          #1e1e2e;
+  --color-border-subtle:   #16161f;
 
   /* Text */
   --color-text-primary:   #f1f5f9;
   --color-text-secondary: #94a3b8;
-  --color-text-muted:     #64748b;
+  --color-text-muted:     #475569;
 
   /* Primary — lighter shades for legibility on dark backgrounds */
   --color-primary-50:  rgba(99, 102, 241, 0.12);
@@ -105,4 +139,18 @@
   --color-primary-500: #818cf8;
   --color-primary-600: #6366f1;
   --color-primary-700: #a5b4fc;
+
+  /* Glassmorphism — dark translucent surface with indigo tint for visual distinction */
+  --surface-glass: rgba(18, 18, 52, 0.78);
+
+  /* Glow — slightly brighter in dark mode for contrast */
+  --glow-primary: 0 0 24px rgba(129, 140, 248, 0.45), 0 0 48px rgba(139, 92, 246, 0.20);
+  --glow-focus:
+    0 0 0 2px var(--color-surface-ground),
+    0 0 0 4px #818cf8,
+    0 0 14px 0 rgba(129, 140, 248, 0.4);
+
+  /* Richer shadows in dark mode */
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.30), 0 2px 4px -2px rgb(0 0 0 / 0.25);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.40), 0 4px 6px -4px rgb(0 0 0 / 0.30);
 }
