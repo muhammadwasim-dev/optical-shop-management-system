@@ -41,15 +41,18 @@
 | Route transition fade+slide visible between routes | ✅ | confirmed by user during construction |
 | Brand mark animates on hover | ✅ | confirmed by user during construction |
 | Geist + Geist Mono load successfully (status 200/304 in Network) | ✅ | confirmed by user |
-| Lighthouse Accessibility 20/20 — `/login` light | ⏸ | **deferred** — deferred to a later visual-tuning pass; D1 was diagnosed via direct Console + Network inspection, which is the higher-trust verification channel |
-| Lighthouse Accessibility 20/20 — `/login` dark | ⏸ | deferred (same rationale) |
-| Lighthouse Accessibility 20/20 — `/customers` light | ⏸ | deferred (same rationale) |
-| Lighthouse Accessibility 20/20 — `/customers` dark | ⏸ | deferred (same rationale) |
-| Lighthouse Performance Snapshot — `/customers` | ⏸ | deferred (same rationale) |
-| Anti-generic side-by-side vs vercel.com/login | ⏸ | deferred — sample screenshot to be captured before LinkedIn post #1 |
-| `prefers-reduced-motion` emulation suppresses animations | ⏸ | deferred — DevTools emulation check not performed this session |
+| Lighthouse Accessibility — `/login` light | ✅ | **21/21** post-cleanup — Bolt 2.5 closed at 19/20 with a known dark-mode CTA contrast failure; the plan's bar-raise to 20/20 was met and exceeded |
+| Lighthouse Accessibility — `/login` dark | ✅ | **21/21** post-cleanup |
+| Lighthouse Accessibility — `/customers` light | ⚠ → ⏭ | **23/25** (92%) — below the ≥95 floor with two specific failing audits (theme-independent): (a) `role="dialog"` / `role="alertdialog"` elements lack accessible names — the Bolt 2 Add/Edit Customer `<p-dialog>` doesn't `aria-labelledby` its header; (b) Background/foreground contrast ratio insufficient — likely the role badge chip. Both predate Bolt 2.6. **Patch 3 deferred to Bolt 3** — the Add/Edit dialog pattern is revisited for prescription form in Bolt 3; fixing once with full context. Bolt 3's plan must list both as named Gate Evidence items. |
+| Lighthouse Accessibility — `/customers` dark | ⚠ → ⏭ | **23/25** (92%) — same two failures, theme-independent (same audits fail in both themes confirms structural ARIA + role-badge contrast, not visual-design contrast). Deferred to Bolt 3 per above. |
+| Lighthouse Performance Navigation — `/customers` (**production build**) | ✅ | **96** — FCP 0.8s ✅, LCP 1.1s ✅, TBT 0 ms ✅, CLS 0.002 ✅, Speed Index 1.6s ⚠ (consistent with the intentional page-load stagger; ~300ms time-to-visually-complete cost; designed trade-off, not a defect). Standing baseline for Bolt 3+. Dev-server Snapshot was 59 against the same code — dev-vs-prod gap of 37 points is itself a methodology callout. |
+| Anti-generic side-by-side vs vercel.com/login | ⏸ | User-deferred (deliberate skip — informal eyeball check in lieu of formal Gate Evidence). Not a defect, not a regression. |
+| `prefers-reduced-motion` emulation suppresses animations | ✅ | "All motion suppressed, layout intact, no missing content" — verdict: pass. |
 
-The five deferred Gate items are not blockers for merge: the Bolt's functional and visual layer was verified by direct browser inspection (the channel that actually caught both Patch 1 and Patch 2 bugs). Lighthouse + anti-generic + reduced-motion become a single mini-pass before the LinkedIn post and before Bolt 3 starts. Logged as pre-Bolt-3 deferred work.
+Five of the seven Gate items closed cleanly with actuals. Two were deliberately deferred:
+
+- **Anti-generic side-by-side:** user-deferred — informal eyeball check is sufficient for Bolt 2.6 closeout; the Bolt 2.6 screenshots can carry LinkedIn post #1 on their own.
+- **Customers a11y (23/25 × 2):** deferred to Bolt 3 — the two named defects (Add/Edit dialog missing `aria-labelledby`; role badge chip contrast) both predate Bolt 2.6 and the Add/Edit dialog pattern is the same pattern Bolt 3 will use for the prescription form. Fixing once with prescription-context full visibility beats fixing twice. **This deferral is only honest if Bolt 3's plan names both defects as explicit Gate Evidence items** — otherwise it becomes invisible quality debt. Logged as a hard requirement on Bolt 3 plan-writing.
 
 ## What AI-DLC Did Well
 
