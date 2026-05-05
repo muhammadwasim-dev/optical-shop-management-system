@@ -224,9 +224,9 @@ import { AuthService } from '../../core/auth/auth.service';
     <!-- Add / Edit Dialog -->
     <p-dialog
       [(visible)]="dialogVisible"
-      [header]="editingId ? 'Edit Customer' : 'Add Customer'"
       [modal]="true"
       [style]="{ width: '450px' }"
+      [header]="editingId ? 'Edit Customer' : 'Add Customer'"
       (onHide)="resetForm()"
     >
       <form [formGroup]="form" class="flex flex-column gap-4 mt-2">

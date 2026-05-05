@@ -11,6 +11,26 @@ enum Role {
   WORKER
 }
 
+enum OrderStatus {
+  CREATED
+  IN_PROGRESS
+  READY
+  DELIVERED
+}
+
+enum PaymentMethod {
+  CASH
+  CARD
+  MOBILE_MONEY
+}
+
+enum PrescriptionType {
+  DISTANCE
+  NEAR
+  BIFOCAL
+  PROGRESSIVE
+}
+
 model User {
   id        String   @id @default(uuid())
   name      String
@@ -21,10 +41,64 @@ model User {
 }
 
 model Customer {
-  id        String   @id @default(uuid())
-  name      String
-  contact   String
-  address   String?
+  id            String         @id @default(uuid())
+  name          String
+  contact       String
+  address       String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  orders        Order[]
+  prescriptions Prescription[]
+}
+
+model Prescription {
+  id         String           @id @default(uuid())
+  customerId String
+  customer   Customer         @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  order      Order?
+
+  rightSph  Decimal? @db.Decimal(4, 2)
+  rightCyl  Decimal? @db.Decimal(4, 2)
+  rightAxis Int?
+  rightAdd  Decimal? @db.Decimal(4, 2)
+  leftSph   Decimal? @db.Decimal(4, 2)
+  leftCyl   Decimal? @db.Decimal(4, 2)
+  leftAxis  Int?
+  leftAdd   Decimal? @db.Decimal(4, 2)
+  pd        Int
+  type      PrescriptionType
+  writtenBy String?
+  writtenOn DateTime?        @db.Date
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id               String      @id @default(uuid())
+  orderNumber      String      @unique
+  customerId       String
+  customer         Customer    @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  prescriptionId   String      @unique
+  prescription     Prescription @relation(fields: [prescriptionId], references: [id], onDelete: Cascade)
+  frameDescription String      @db.VarChar(500)
+  lensType         String      @db.VarChar(200)
+  coatings         String?     @db.VarChar(200)
+  totalAmount      Decimal     @db.Decimal(10, 2)
+  status           OrderStatus @default(CREATED)
+  payments         Payment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Payment {
+  id        String        @id @default(uuid())
+  orderId   String
+  order     Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  amount    Decimal       @db.Decimal(10, 2)
+  paidOn    DateTime      @default(now()) @db.Date
+  method    PaymentMethod
+  note      String?       @db.VarChar(200)
+  createdAt DateTime      @default(now())
 }

@@ -71,8 +71,8 @@
 
   <!-- ── Main content — Step 9: route transition wrapper ────── -->
   <main class="layout-content" id="main-content">
-    <div class="route-wrapper" [@routeTransition]="getRouteState(outlet)">
-      <router-outlet #outlet="outlet" />
+    <div class="route-wrapper" [@routeTransition]="currentRoute()">
+      <router-outlet />
     </div>
   </main>
 

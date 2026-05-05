@@ -17,12 +17,15 @@ describe('Customers (e2e)', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+    app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
     await app.init();
 
     prisma = app.get(PrismaService);
 
-    // Clean up any test customers from previous runs
+    // Clean up in FK-safe order (payments → orders → prescriptions → customers)
+    await prisma.payment.deleteMany({});
+    await prisma.order.deleteMany({});
+    await prisma.prescription.deleteMany({});
     await prisma.customer.deleteMany({});
 
     // Get owner token (seeded by AuthService.onModuleInit)
@@ -38,6 +41,9 @@ describe('Customers (e2e)', () => {
   });
 
   afterAll(async () => {
+    await prisma.payment.deleteMany({});
+    await prisma.order.deleteMany({});
+    await prisma.prescription.deleteMany({});
     await prisma.customer.deleteMany({});
     await app.close();
   });

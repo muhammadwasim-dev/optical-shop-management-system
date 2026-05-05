@@ -1,0 +1,228 @@
+.create-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 800px;
+
+  & > * {
+    animation: fade-up 250ms var(--ease-out-soft, ease-out) backwards;
+  }
+  & > *:nth-child(1) { animation-delay: 0ms; }
+  & > *:nth-child(2) { animation-delay: 40ms; }
+  & > form > *:nth-child(1) { animation-delay: 60ms; }
+  & > form > *:nth-child(2) { animation-delay: 100ms; }
+  & > form > *:nth-child(3) { animation-delay: 140ms; }
+  & > form > *:nth-child(4) { animation-delay: 180ms; }
+  & > form > *:nth-child(5) { animation-delay: 220ms; }
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.page-title {
+  font-size: var(--font-h1);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.dark .page-title {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.page-subtitle {
+  margin: var(--space-1) 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.form-section {
+  background: var(--color-surface-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+  padding: var(--space-4) var(--space-5);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-section);
+}
+
+.section-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--gradient-brand);
+  color: #fff;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  flex-shrink: 0;
+}
+
+.section-body {
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.field-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.field-required { color: var(--color-error); }
+
+.field-error {
+  font-size: var(--font-size-xs);
+  color: var(--color-error);
+}
+
+/* ── Prescription 2×4 grid ────────────────────────────────── */
+.rx-grid {
+  display: grid;
+  grid-template-columns: 1fr 1px 1fr;
+  gap: var(--space-5);
+  padding: var(--space-4);
+  background: var(--color-surface-section);
+  border-radius: var(--radius-base);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.rx-divider {
+  background: var(--color-border);
+  border-radius: 1px;
+}
+
+.rx-eye-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.rx-eye-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-500);
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: var(--font-size-xs);
+}
+
+.rx-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.rx-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.rx-label {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+:host ::ng-deep .rx-input {
+  font-family: var(--font-mono) !important;
+  text-align: right;
+  width: 100%;
+}
+
+.pd-field {
+  max-width: 200px;
+}
+
+:host ::ng-deep .pd-input {
+  font-family: var(--font-mono) !important;
+  text-align: center;
+  width: 120px;
+}
+
+/* ── Money field ──────────────────────────────────────────── */
+.money-input-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.money-prefix {
+  font-family: var(--font-mono);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-base);
+  white-space: nowrap;
+}
+
+:host ::ng-deep .money-input {
+  font-family: var(--font-mono) !important;
+  text-align: right;
+  width: 180px;
+}
+
+/* ── Customer autocomplete ─────────────────────────────────── */
+.customer-suggestion {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.customer-name {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.customer-contact {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+}
+
+/* ── Form actions ─────────────────────────────────────────── */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding-bottom: var(--space-4);
+}

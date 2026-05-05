@@ -157,12 +157,27 @@
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  /* WCAG AA fix: #0f172a on #f1f5f9 → ~14:1 */
   background: var(--color-surface-section);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 
   &.owner {
-    background: rgba(99, 102, 241, 0.15);
-    color: var(--color-primary-600);
+    /* WCAG AA fix: white on #4f46e5 → ~5.2:1 */
+    background: #4f46e5;
+    color: #ffffff;
+  }
+}
+
+/* Dark mode: ensure contrast holds */
+.dark .role-badge {
+  /* #f1f5f9 on #111118 → >7:1 */
+  color: var(--color-text-primary);
+  background: var(--color-surface-section);
+
+  &.owner {
+    /* light indigo text on very dark indigo bg → ~8.6:1 */
+    background: #1e1b4b;
+    color: #a5b4fc;
   }
 }
 
