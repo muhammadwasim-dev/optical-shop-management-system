@@ -77,6 +77,7 @@ const STATUS_SEVERITY: Record<OrderStatus, string> = {
               class="status-chip"
               [class.active]="isStatusActive(s)"
               [attr.data-status]="s"
+              [attr.aria-pressed]="isStatusActive(s)"
               (click)="toggleStatus(s)"
             >{{ statusLabel(s) }}</button>
           </div>

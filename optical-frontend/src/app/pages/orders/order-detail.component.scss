@@ -113,7 +113,7 @@
   &[data-status='CREATED'] { background: rgba(100,116,139,.12); color: #475569; box-shadow: 0 0 0 1px rgba(100,116,139,.25); }
   &[data-status='IN_PROGRESS'] { background: rgba(99,102,241,.12); color: var(--color-primary-600); box-shadow: 0 0 10px rgba(99,102,241,.2); }
   &[data-status='READY'] { background: rgba(139,92,246,.12); color: #7c3aed; box-shadow: 0 0 10px rgba(139,92,246,.2); }
-  &[data-status='DELIVERED'] { background: rgba(34,197,94,.12); color: #16a34a; box-shadow: 0 0 10px rgba(34,197,94,.2); }
+  &[data-status='DELIVERED'] { background: rgba(34,197,94,.12); color: #166534; box-shadow: 0 0 10px rgba(34,197,94,.2); } /* WCAG AA: 6.4:1 */
 }
 
 .dark .status-badge {
@@ -122,6 +122,9 @@
   &[data-status='READY'] { color: #a78bfa; }
   &[data-status='DELIVERED'] { color: #4ade80; }
 }
+
+.dark .paid-text,
+.dark .paid-badge { color: #4ade80; } /* restore brightness on dark bg */
 
 .detail-grid {
   display: grid;
@@ -201,7 +204,7 @@
   font-weight: var(--font-weight-medium);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--color-text-muted);
+  color: var(--color-text-secondary); /* was text-muted (#94a3b8 = 2.56:1); secondary = 4.73:1 on white */
   padding-top: 2px;
 }
 
@@ -236,7 +239,7 @@
 
 .rx-row-label {
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary); /* was text-secondary: 4.33:1 on section bg; primary passes on all surfaces */
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-size: 10px;
@@ -306,7 +309,7 @@
 .totals-value { font-family: var(--font-mono); }
 
 .money { font-family: var(--font-mono); font-weight: var(--font-weight-semibold); color: var(--color-text-primary); }
-.paid-text { color: var(--color-success); }
+.paid-text { color: #15803d; } /* WCAG AA: 5.0:1 on white */
 .balance-text { color: var(--color-error); }
 
 .totals-divider { height: 1px; background: var(--color-border); margin: var(--space-2) 0; }
@@ -318,7 +321,7 @@
   gap: var(--space-2);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-success);
+  color: #15803d; /* WCAG AA: 5.0:1 on white */
 }
 
 .money-input-wrap { display: flex; align-items: center; gap: var(--space-2); }

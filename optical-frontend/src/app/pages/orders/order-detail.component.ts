@@ -250,7 +250,7 @@ function nextStatus(current: OrderStatus): OrderStatus | null {
                 <div class="card-body">
                   <div class="rx-grid-display" role="table" aria-label="Prescription values">
                     <div class="rx-header-row" role="row">
-                      <div class="rx-cell rx-row-label" role="columnheader"></div>
+                      <div class="rx-cell rx-row-label" role="columnheader" aria-label="Eye"></div>
                       <div class="rx-cell rx-col-label" role="columnheader">SPH</div>
                       <div class="rx-cell rx-col-label" role="columnheader">CYL</div>
                       <div class="rx-cell rx-col-label" role="columnheader">AXIS</div>
