@@ -235,6 +235,48 @@ textarea:focus-visible,
 /* All non-essential animations stop. Route transitions reduce to    */
 /* opacity-only (no translateY). Gradient mesh stops entirely.       */
 
+/* ── Dark-mode contrast overrides (must be global — .dark is on <html>) ─────
+   Angular emulated encapsulation adds [_ngcontent-xxx] to both sides of a
+   ".dark .foo" rule, so ".dark[_ngcontent] .foo[_ngcontent]" never matches
+   <html class="dark">. These global rules use html.dark to beat component
+   specificity (adds element selector → wins on tie-break).            */
+
+/* Footer link */
+.dark .layout-footer .footer-link {
+  color: var(--color-primary-500); /* #818cf8 on dark bg → 6.59:1 ✓ */
+}
+
+/* Status badges — CREATED uses mid-gray in light, needs bright slate in dark */
+html.dark .status-badge[data-status='CREATED']    { color: #94a3b8; }
+html.dark .status-badge[data-status='IN_PROGRESS']{ color: #818cf8; }
+html.dark .status-badge[data-status='READY']      { color: #a78bfa; }
+html.dark .status-badge[data-status='DELIVERED']  { color: #4ade80; }
+
+/* Paid-text green — #15803d passes on white light bg (5.0:1 ✓) but fails dark */
+html.dark .paid-text  { color: #4ade80; } /* 10.5:1 on #131320 ✓ */
+html.dark .paid-badge { color: #4ade80; }
+
+/* Order number mono text — primary-600 in dark (#6366f1) = 4.45:1 on #09090b ✗ */
+html.dark .order-num { color: var(--color-primary-500); } /* #818cf8 → 6.69:1 ✓ */
+
+/* Rx prescription display header labels */
+html.dark .rx-col-label  { color: var(--color-primary-500); } /* #818cf8 → 5.65:1 ✓ */
+
+/* Rx eye labels in create/edit form */
+html.dark .rx-eye-label  { color: var(--color-primary-500); } /* #818cf8 → ✓ */
+
+/* PrimeNG Aura default primary text button uses emerald (#10b981) which
+   fails WCAG on light section backgrounds (2.31:1). Override to brand primary. */
+.p-button.p-button-text:not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warn):not(.p-button-info) {
+  color: var(--color-primary-600) !important; /* light:#4f46e5→5.66:1 ✓ */
+}
+html.dark .p-button.p-button-text:not(.p-button-secondary):not(.p-button-danger):not(.p-button-success):not(.p-button-warn):not(.p-button-info) {
+  color: var(--color-primary-500) !important; /* dark:#818cf8→6.31:1 ✓ */
+}
+
+/* PrimeNG SelectButton label — #64748b on section bg = 4.34:1 ✗ */
+.p-selectbutton .p-togglebutton-label { color: var(--color-text-primary) !important; }
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

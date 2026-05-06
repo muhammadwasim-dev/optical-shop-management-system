@@ -137,7 +137,7 @@ form {
 .rx-eye-label {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-primary-500);
+  color: var(--color-primary-600); /* light:#4f46e5→5.66:1 on section ✓; dark overridden globally */
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -159,7 +159,7 @@ form {
 .rx-label {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary); /* secondary (#64748b) = 4.34:1 on section ✗ */
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }

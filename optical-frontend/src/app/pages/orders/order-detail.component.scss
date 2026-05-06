@@ -182,7 +182,7 @@
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary); /* secondary (#64748b) = 4.34:1 on section bg ✗ */
 }
 
 .card-body {
@@ -328,7 +328,7 @@
 .money-prefix { font-family: var(--font-mono); font-weight: var(--font-weight-semibold); color: var(--color-text-secondary); }
 :host ::ng-deep .money-input { font-family: var(--font-mono) !important; text-align: right; width: 160px; }
 
-.no-payments { font-size: var(--font-size-sm); color: var(--color-text-muted); margin: 0; text-align: center; padding: var(--space-4) 0; }
+.no-payments { font-size: var(--font-size-sm); color: var(--color-text-secondary); margin: 0; text-align: center; padding: var(--space-4) 0; }
 
 .payment-row {
   display: flex;

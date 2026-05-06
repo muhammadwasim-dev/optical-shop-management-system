@@ -152,7 +152,7 @@
 }
 
 .order-num {
-  color: var(--color-primary-500);
+  color: var(--color-primary-600); /* light:#4f46e5→5.93:1 on #f8fafc ✓; dark:#6366f1 passes */
   font-weight: var(--font-weight-semibold);
 }
 

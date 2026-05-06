@@ -79,7 +79,7 @@ function nextStatus(current: OrderStatus): OrderStatus | null {
                   (onClick)="saveEdit()"
                   [loading]="savingEdit()"
                   [disabled]="editForm.invalid"
-                  aria-label="Save order changes"
+                  [ariaLabel]="'Save order changes'"
                 />
                 <p-button
                   label="Cancel"
@@ -87,7 +87,7 @@ function nextStatus(current: OrderStatus): OrderStatus | null {
                   [text]="true"
                   (onClick)="cancelEdit()"
                   [disabled]="savingEdit()"
-                  aria-label="Cancel editing"
+                  [ariaLabel]="'Cancel editing'"
                 />
               } @else {
                 <p-button
@@ -97,7 +97,7 @@ function nextStatus(current: OrderStatus): OrderStatus | null {
                   [outlined]="true"
                   (onClick)="startEdit()"
                   [disabled]="updatingStatus()"
-                  aria-label="Edit this order"
+                  [ariaLabel]="'Edit this order'"
                 />
               }
             </div>
@@ -129,7 +129,7 @@ function nextStatus(current: OrderStatus): OrderStatus | null {
                   icon="pi pi-trash"
                   severity="danger"
                   [text]="true"
-                  [attr.aria-label]="'Delete order ' + order()!.orderNumber"
+                  [ariaLabel]="'Delete order ' + order()!.orderNumber"
                   (onClick)="deleteOrder()"
                   [disabled]="isEditing()"
                 />
@@ -356,7 +356,7 @@ function nextStatus(current: OrderStatus): OrderStatus | null {
                         [maxFractionDigits]="2"
                         placeholder="0.00"
                         inputStyleClass="money-input"
-                        aria-label="Total amount"
+                        [ariaLabel]="'Total amount'"
                       />
                     </div>
                   } @else {
@@ -399,7 +399,7 @@ function nextStatus(current: OrderStatus): OrderStatus | null {
                   [text]="true"
                   [disabled]="isEditing()"
                   (onClick)="paymentDialogVisible.set(true)"
-                  aria-label="Record a payment"
+                  [ariaLabel]="'Record a payment'"
                 />
               </div>
               <div class="card-body">
@@ -425,7 +425,7 @@ function nextStatus(current: OrderStatus): OrderStatus | null {
                           severity="danger"
                           [text]="true"
                           size="small"
-                          [attr.aria-label]="'Delete payment of Rs. ' + formatMoney(payment.amount)"
+                          [ariaLabel]="'Delete payment of Rs. ' + formatMoney(payment.amount)"
                           (onClick)="deletePayment(payment)"
                         />
                       }

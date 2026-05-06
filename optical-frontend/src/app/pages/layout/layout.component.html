@@ -48,7 +48,7 @@
           </span>
         </button>
 
-        <div class="user-info" [attr.aria-label]="'Signed in as ' + auth.getUser()?.name">
+        <div class="user-info">
           <i class="pi pi-user" aria-hidden="true"></i>
           <span class="user-name">{{ auth.getUser()?.name }}</span>
           <span class="role-badge" [class.owner]="auth.isOwner()">

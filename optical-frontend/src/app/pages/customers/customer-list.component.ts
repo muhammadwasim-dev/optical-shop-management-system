@@ -7,9 +7,8 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.model';
@@ -27,14 +26,12 @@ import { AuthService } from '../../core/auth/auth.service';
     ButtonModule,
     InputTextModule,
     DialogModule,
-    ConfirmDialogModule,
     ToastModule,
   ],
-  providers: [ConfirmationService, MessageService],
+  providers: [MessageService],
   styleUrl: './customer-list.component.scss',
   template: `
     <p-toast />
-    <p-confirmDialog header="Confirm Delete" />
 
     <div class="customers-page">
 
@@ -92,7 +89,7 @@ import { AuthService } from '../../core/auth/auth.service';
                   severity="secondary"
                   [text]="true"
                   size="small"
-                  [attr.aria-label]="'Edit ' + customer.name"
+                  [ariaLabel]="'Edit ' + customer.name"
                   (onClick)="openEdit(customer)"
                 />
                 @if (auth.isOwner()) {
@@ -101,7 +98,7 @@ import { AuthService } from '../../core/auth/auth.service';
                     severity="danger"
                     [text]="true"
                     size="small"
-                    [attr.aria-label]="'Delete ' + customer.name"
+                    [ariaLabel]="'Delete ' + customer.name"
                     (onClick)="confirmDelete(customer)"
                   />
                 }
@@ -275,7 +272,6 @@ export class CustomerListComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     public auth: AuthService,
-    private confirmation: ConfirmationService,
     private toast: MessageService,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
@@ -355,12 +351,8 @@ export class CustomerListComponent implements OnInit {
   }
 
   confirmDelete(customer: Customer) {
-    this.confirmation.confirm({
-      message: `Delete "${customer.name}"? This cannot be undone.`,
-      header: 'Confirm Delete',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => this.deleteCustomer(customer.id),
-    });
+    if (!confirm(`Delete "${customer.name}"? This cannot be undone.`)) return;
+    this.deleteCustomer(customer.id);
   }
 
   deleteCustomer(id: string) {

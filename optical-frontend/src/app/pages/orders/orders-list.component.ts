@@ -134,7 +134,7 @@ const STATUS_SEVERITY: Record<OrderStatus, string> = {
                   [text]="true"
                   size="small"
                   [routerLink]="['/orders', order.id]"
-                  [attr.aria-label]="'View order ' + order.orderNumber"
+                  [ariaLabel]="'View order ' + order.orderNumber"
                 />
                 @if (auth.isOwner()) {
                   <p-button
@@ -142,7 +142,7 @@ const STATUS_SEVERITY: Record<OrderStatus, string> = {
                     severity="danger"
                     [text]="true"
                     size="small"
-                    [attr.aria-label]="'Delete order ' + order.orderNumber"
+                    [ariaLabel]="'Delete order ' + order.orderNumber"
                     (onClick)="deleteOrder(order)"
                   />
                 }
