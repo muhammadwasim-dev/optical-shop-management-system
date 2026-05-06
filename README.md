@@ -35,7 +35,7 @@ Each Bolt is an independently shippable unit of work with its own Gate Evidence 
 - [x] **Bolt 2** — Customer Management
 - [x] **Bolt 2.5** — Design Foundation & Theming *(inserted, non-feature)*
 - [x] **Bolt 2.6** — Visual Identity & Motion Design *(inserted, non-feature)*
-- [ ] **Bolt 3** — Order + Prescription Entry
+- [x] **Bolt 3** — Order + Prescription Entry
 - [ ] **Bolt 4** — Receipt Generation
 - [ ] **Bolt 5** — Dashboard & Payment Tracking
 - [ ] **Bolt 6** — Role Permissions & Polish
@@ -89,9 +89,11 @@ Optical Shop Management System/
 │   │   ├── bolt-1.md
 │   │   ├── bolt-2.md
 │   │   ├── bolt-2.5.md
-│   │   └── bolt-2.6.md
+│   │   ├── bolt-2.6.md
+│   │   └── bolt-3.md
 │   └── screenshots/
-│       └── bolt-2.5/             ← four manual a11y verification captures
+│       ├── bolt-2.5/             ← four manual a11y verification captures
+│       └── bolt-3/               ← before-patch3 + after-patch4 a11y (16) + 3 perf + 1 reduced-motion
 ├── optical-backend/              ← NestJS + Prisma + PostgreSQL
 └── optical-frontend/             ← Angular + PrimeNG
 ```
