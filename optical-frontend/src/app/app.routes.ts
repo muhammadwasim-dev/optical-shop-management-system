@@ -20,6 +20,18 @@ export const routes: Routes = [
         path: 'customers',
         loadComponent: () => import('./pages/customers/customer-list.component').then(m => m.CustomerListComponent),
       },
+      {
+        path: 'orders',
+        loadComponent: () => import('./pages/orders/orders-list.component').then(m => m.OrdersListComponent),
+      },
+      {
+        path: 'orders/new',
+        loadComponent: () => import('./pages/orders/order-create.component').then(m => m.OrderCreateComponent),
+      },
+      {
+        path: 'orders/:id',
+        loadComponent: () => import('./pages/orders/order-detail.component').then(m => m.OrderDetailComponent),
+      },
     ],
   },
   { path: '**', redirectTo: 'dashboard' },

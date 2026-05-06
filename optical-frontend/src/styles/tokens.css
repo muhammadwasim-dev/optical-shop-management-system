@@ -56,7 +56,7 @@
   /* ── Semantic ────────────────────────────────────────────────── */
   --color-success: #22c55e;
   --color-warning: #f59e0b;
-  --color-error:   #ef4444;
+  --color-error:   #b91c1c; /* darkened from #ef4444 → 6.47:1 on white, 5.91:1 on section ✓ */
   --color-info:    #3b82f6;
 
   /* ── Spacing (8-pt grid) ─────────────────────────────────────── */
@@ -149,6 +149,9 @@
     0 0 0 2px var(--color-surface-ground),
     0 0 0 4px #818cf8,
     0 0 14px 0 rgba(129, 140, 248, 0.4);
+
+  /* Error — brighter red so it passes on dark card bg (#131320) */
+  --color-error: #ef4444; /* 4.89:1 on #131320 ✓ */
 
   /* Richer shadows in dark mode */
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.30), 0 2px 4px -2px rgb(0 0 0 / 0.25);

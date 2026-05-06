@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
@@ -39,6 +40,17 @@ export class CustomersService {
 
   async remove(id: string) {
     await this.findOne(id);
-    return this.prisma.customer.delete({ where: { id } });
+    try {
+      return await this.prisma.customer.delete({ where: { id } });
+    } catch (err: any) {
+      const code = err?.code ?? err?.cause?.originalCode ?? '';
+      // P2003 = Prisma FK error; 23001 = Postgres RESTRICT violation; 23503 = FK violation
+      if (code === 'P2003' || code === '23001' || code === '23503') {
+        throw new ConflictException(
+          'Cannot delete customer who has orders. Delete their orders first.',
+        );
+      }
+      throw err;
+    }
   }
 }

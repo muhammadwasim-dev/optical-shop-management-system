@@ -7,9 +7,8 @@ import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 import { CustomerService } from './customer.service';
 import { Customer } from './customer.model';
@@ -27,14 +26,12 @@ import { AuthService } from '../../core/auth/auth.service';
     ButtonModule,
     InputTextModule,
     DialogModule,
-    ConfirmDialogModule,
     ToastModule,
   ],
-  providers: [ConfirmationService, MessageService],
+  providers: [MessageService],
   styleUrl: './customer-list.component.scss',
   template: `
     <p-toast />
-    <p-confirmDialog header="Confirm Delete" />
 
     <div class="customers-page">
 
@@ -92,7 +89,7 @@ import { AuthService } from '../../core/auth/auth.service';
                   severity="secondary"
                   [text]="true"
                   size="small"
-                  [attr.aria-label]="'Edit ' + customer.name"
+                  [ariaLabel]="'Edit ' + customer.name"
                   (onClick)="openEdit(customer)"
                 />
                 @if (auth.isOwner()) {
@@ -101,7 +98,7 @@ import { AuthService } from '../../core/auth/auth.service';
                     severity="danger"
                     [text]="true"
                     size="small"
-                    [attr.aria-label]="'Delete ' + customer.name"
+                    [ariaLabel]="'Delete ' + customer.name"
                     (onClick)="confirmDelete(customer)"
                   />
                 }
@@ -224,32 +221,32 @@ import { AuthService } from '../../core/auth/auth.service';
     <!-- Add / Edit Dialog -->
     <p-dialog
       [(visible)]="dialogVisible"
-      [header]="editingId ? 'Edit Customer' : 'Add Customer'"
       [modal]="true"
       [style]="{ width: '450px' }"
+      [header]="editingId ? 'Edit Customer' : 'Add Customer'"
       (onHide)="resetForm()"
     >
       <form [formGroup]="form" class="flex flex-column gap-4 mt-2">
 
         <div class="dialog-field">
-          <label class="dialog-label">Name <span class="field-required" aria-hidden="true">*</span></label>
-          <input pInputText formControlName="name" placeholder="Full name" class="w-full" />
+          <label class="dialog-label" for="dlg-name">Name <span class="field-required" aria-hidden="true">*</span></label>
+          <input id="dlg-name" pInputText formControlName="name" placeholder="Full name" class="w-full" />
           @if (form.get('name')?.invalid && form.get('name')?.touched) {
             <small class="field-error">Name is required</small>
           }
         </div>
 
         <div class="dialog-field">
-          <label class="dialog-label">Contact <span class="field-required" aria-hidden="true">*</span></label>
-          <input pInputText formControlName="contact" placeholder="Phone number" class="w-full" />
+          <label class="dialog-label" for="dlg-contact">Contact <span class="field-required" aria-hidden="true">*</span></label>
+          <input id="dlg-contact" pInputText formControlName="contact" placeholder="Phone number" class="w-full" />
           @if (form.get('contact')?.invalid && form.get('contact')?.touched) {
             <small class="field-error">Contact is required</small>
           }
         </div>
 
         <div class="dialog-field">
-          <label class="dialog-label">Address</label>
-          <input pInputText formControlName="address" placeholder="Optional" class="w-full" />
+          <label class="dialog-label" for="dlg-address">Address</label>
+          <input id="dlg-address" pInputText formControlName="address" placeholder="Optional" class="w-full" />
         </div>
 
       </form>
@@ -275,7 +272,6 @@ export class CustomerListComponent implements OnInit {
   constructor(
     private customerService: CustomerService,
     public auth: AuthService,
-    private confirmation: ConfirmationService,
     private toast: MessageService,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
@@ -355,12 +351,8 @@ export class CustomerListComponent implements OnInit {
   }
 
   confirmDelete(customer: Customer) {
-    this.confirmation.confirm({
-      message: `Delete "${customer.name}"? This cannot be undone.`,
-      header: 'Confirm Delete',
-      icon: 'pi pi-exclamation-triangle',
-      accept: () => this.deleteCustomer(customer.id),
-    });
+    if (!confirm(`Delete "${customer.name}"? This cannot be undone.`)) return;
+    this.deleteCustomer(customer.id);
   }
 
   deleteCustomer(id: string) {
