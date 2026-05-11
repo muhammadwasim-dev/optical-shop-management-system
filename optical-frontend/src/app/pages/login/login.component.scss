@@ -1,36 +1,57 @@
-/* ── Page wrapper ─────────────────────────────────────────────── */
+/* ── Page wrapper ───────────────────────────────────────────────── */
+/* Default (mobile): flex-centered, no illustration                 */
 .login-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: var(--space-8) var(--space-4);
-  background: var(--color-surface-ground);
   overflow: hidden;
+  padding: var(--space-8) var(--space-4);
+
+  /* Light theme: warm cream base — illustration carries the color  */
+  background:
+    radial-gradient(ellipse at 90% 100%, rgba(244, 114, 182, 0.18) 0%, transparent 50%),
+    linear-gradient(180deg, #FFF8F1 0%, #F5F0FF 100%);
+  background-attachment: fixed;
 }
 
-/* ── Step 6: Animated gradient mesh background ─────────────────── */
-/* inset: -10% gives transform-drift room without clipping */
-.login-bg-mesh {
+:host-context(.dark) .login-wrapper {
+  /* Dark theme: moody deep violet — neon lines will glow over this */
+  background:
+    radial-gradient(ellipse at 10%  0%,  rgba(251, 146, 60,  0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 100%, rgba(139, 92,  246, 0.15) 0%, transparent 60%),
+    linear-gradient(180deg, #1A1428 0%, #0F0A1F 100%);
+  background-attachment: fixed;
+}
+
+/* ── Vintage illustration — hidden on mobile ────────────────────── */
+.login-illustration {
+  display: none;
   position: absolute;
-  inset: -10%;
+  left: 0;
+  top: 0;
+  width: 55%;
+  height: 100%;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 65% 55% at 28% 28%, rgba(99, 102, 241, 0.42) 0%, transparent 60%),
-    radial-gradient(ellipse 55% 65% at 72% 72%, rgba(139, 92, 246, 0.32) 0%, transparent 60%);
-  animation: mesh-drift 11s ease-in-out infinite;
   z-index: 0;
+  overflow: hidden;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    /* Light theme: brand-gradient inks are crisp, clearly visible   */
+    opacity: 0.62;
+  }
 }
 
-/* Light mode: softer blobs */
-:host-context(:not(.dark)) .login-bg-mesh {
-  background:
-    radial-gradient(ellipse 65% 55% at 28% 28%, rgba(99, 102, 241, 0.09) 0%, transparent 60%),
-    radial-gradient(ellipse 55% 65% at 72% 72%, rgba(139, 92, 246, 0.07) 0%, transparent 60%);
+/* Dark theme: neon glow over the deep base */
+:host-context(.dark) .login-illustration svg {
+  opacity: 0.50;
+  filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.4));
 }
 
-/* Theme toggle */
+/* ── Theme toggle ────────────────────────────────────────────────── */
 .theme-toggle {
   position: fixed;
   top: var(--space-4);
@@ -51,29 +72,39 @@
   z-index: 10;
 }
 
-/* ── Glassmorphic card ─────────────────────────────────────────── */
+/* ── Glassmorphic sign-in card ──────────────────────────────────── */
+/* Default (mobile): in-flow, centered by wrapper flex              */
 .login-card {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 420px;
-  background: var(--surface-glass);
-  backdrop-filter: blur(var(--blur-glass));
-  -webkit-backdrop-filter: blur(var(--blur-glass));
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg), 0 0 48px rgba(99, 102, 241, 0.06);
-  padding: var(--space-8);
+  max-width: 460px;
+  padding: 44px;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
+
+  /* Light theme glass: frosted white over warm cream base           */
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 24px;
+  box-shadow:
+    0 24px 48px rgba(99, 102, 241, 0.15),
+    0 1px 0 rgba(255, 255, 255, 0.70) inset;
 }
 
-:host-context(:not(.dark)) .login-card {
-  border-color: rgba(99, 102, 241, 0.08);
+/* Dark theme glass: translucent deep surface — illustration smears through */
+:host-context(.dark) .login-card {
+  background: rgba(20, 20, 32, 0.50);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.4),
+    0 1px 0 rgba(255, 255, 255, 0.08) inset;
 }
 
-/* ── Brand section ─────────────────────────────────────────────── */
+/* ── Brand section ──────────────────────────────────────────────── */
 .login-brand {
   display: flex;
   flex-direction: column;
@@ -150,7 +181,7 @@
 
 .field-input { width: 100%; }
 
-/* ── Primary CTA — gradient sweep ─────────────────────────────── */
+/* ── Primary CTA — gradient sweep ──────────────────────────────── */
 .login-btn {
   display: flex;
   align-items: center;
@@ -179,5 +210,28 @@
   &:disabled {
     opacity: 0.7;
     cursor: not-allowed;
+  }
+}
+
+/* ── Desktop: side-by-side illustration + overlapping glass card ── */
+@media (min-width: 768px) {
+  .login-wrapper {
+    padding: 0;
+  }
+
+  .login-illustration {
+    display: block;
+  }
+
+  /* Card: absolutely positioned so its left edge overlaps            */
+  /* illustration by ~100px — this is where the vitrine effect lives  */
+  .login-card {
+    position: absolute;
+    /* min() prevents right-edge overflow on narrow desktop viewports  */
+    left: min(calc(55% - 100px), calc(100% - 480px));
+    top: 50%;
+    transform: translateY(-50%);
+    width: 460px;
+    max-width: none;
   }
 }
