@@ -1,4 +1,4 @@
-<!-- Login page — vintage optometrist art behind glass card -->
+<!-- Login page — gradient mesh background with glassmorphic card -->
 <div class="login-wrapper">
 
   <!-- Theme toggle — fixed top-right, visible before auth -->
@@ -14,157 +14,326 @@
     </span>
   </button>
 
-  <!-- Vintage optometrist illustration — visible art behind glass vitrine -->
-  <div class="login-illustration" aria-hidden="true">
-    <svg
-      viewBox="0 0 600 900"
-      preserveAspectRatio="xMaxYMid meet"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-      focusable="false"
-    >
+  <!-- ① Full-screen scatter — tiny glasses + optical marks visible everywhere,
+       including through the frosted card on the right -->
+  <div class="login-scatter" aria-hidden="true">
+    <svg viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
+         xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <linearGradient id="vitrine-grad" gradientUnits="userSpaceOnUse"
-                        x1="0" y1="0" x2="600" y2="900">
+        <linearGradient id="scatter-grad" gradientUnits="userSpaceOnUse"
+                        x1="0" y1="0" x2="1440" y2="900">
           <stop offset="0%"   stop-color="#818CF8"/>
           <stop offset="50%"  stop-color="#A78BFA"/>
           <stop offset="100%" stop-color="#E879F9"/>
         </linearGradient>
       </defs>
 
-      <!-- ─── Refraction focal lens ──────────────────────────────────── -->
-      <circle cx="300" cy="95" r="22" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.8" stroke-linecap="round"/>
-      <circle cx="300" cy="95" r="14" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
-      <circle cx="300" cy="95" r="6"  fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- 16 tiny glasses scattered across full canvas -->
+      <g fill="none" stroke="url(#scatter-grad)" stroke-linecap="round">
 
-      <!-- ─── Refraction rays bending through the lens ──────────────── -->
-      <line x1="300" y1="95" x2="55"  y2="20"  fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="300" y1="95" x2="20"  y2="95"  fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="300" y1="95" x2="55"  y2="170" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="300" y1="95" x2="545" y2="20"  fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="300" y1="95" x2="570" y2="95"  fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
+        <g transform="translate(85,75) rotate(-15)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
 
-      <!-- ─── Phoropter support structure ──────────────────────────── -->
-      <!-- Vertical stem from lens down to crossbar -->
-      <line x1="300" y1="117" x2="300" y2="195" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.8" stroke-linecap="round"/>
-      <!-- Horizontal crossbar -->
-      <line x1="268" y1="195" x2="332" y2="195" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.8" stroke-linecap="round"/>
-      <!-- Main support arm down to bridge -->
-      <line x1="300" y1="195" x2="300" y2="338" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.8" stroke-linecap="round"/>
+        <g transform="translate(340,42) rotate(10)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
 
-      <!-- ─── Left eyepiece (phoropter) ─────────────────────────── -->
-      <!-- Outer dial ring with graduation marks -->
-      <circle cx="172" cy="355" r="110" fill="none" stroke="url(#vitrine-grad)" stroke-width="2"/>
-      <g transform="translate(172,355)" fill="none" stroke="url(#vitrine-grad)" stroke-linecap="round">
-        <line x1="104" y1="0" x2="110" y2="0" stroke-width="2"   transform="rotate(0)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(30)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(60)"/>
-        <line x1="104" y1="0" x2="110" y2="0" stroke-width="2"   transform="rotate(90)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(120)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(150)"/>
-        <line x1="104" y1="0" x2="110" y2="0" stroke-width="2"   transform="rotate(180)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(210)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(240)"/>
-        <line x1="104" y1="0" x2="110" y2="0" stroke-width="2"   transform="rotate(270)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(300)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(330)"/>
+        <g transform="translate(680,90) rotate(-8)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(1020,55) rotate(18)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(1285,95) rotate(-12)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(1395,245) rotate(8)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(55,435) rotate(5)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(155,755) rotate(-22)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(405,845) rotate(15)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(765,870) rotate(-5)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(1055,815) rotate(12)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(1225,705) rotate(-16)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(1365,505) rotate(7)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(1430,330) rotate(-20)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(500,170) rotate(-5)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
+        <g transform="translate(700,730) rotate(8)">
+          <rect x="-33" y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <rect x="7"   y="-21" width="26" height="17" rx="5" stroke-width="2"/>
+          <path d="M -7 -15 Q 0 -22 7 -15" stroke-width="1.5"/>
+          <line x1="-33" y1="-13" x2="-50" y2="-13" stroke-width="1.8"/>
+          <line x1="33"  y1="-13" x2="50"  y2="-13" stroke-width="1.8"/>
+        </g>
+
       </g>
-      <!-- Concentric aperture rings -->
-      <circle cx="172" cy="355" r="86" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5"/>
-      <circle cx="172" cy="355" r="64" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5"/>
-      <circle cx="172" cy="355" r="44" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5"/>
-      <circle cx="172" cy="355" r="28" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5"/>
-      <circle cx="172" cy="355" r="14" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5"/>
-      <!-- Optical crosshair -->
-      <line x1="156" y1="355" x2="188" y2="355" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="172" y1="339" x2="172" y2="371" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
 
-      <!-- ─── Right eyepiece (phoropter) ────────────────────────── -->
-      <circle cx="428" cy="355" r="110" fill="none" stroke="url(#vitrine-grad)" stroke-width="2"/>
-      <g transform="translate(428,355)" fill="none" stroke="url(#vitrine-grad)" stroke-linecap="round">
-        <line x1="104" y1="0" x2="110" y2="0" stroke-width="2"   transform="rotate(0)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(30)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(60)"/>
-        <line x1="104" y1="0" x2="110" y2="0" stroke-width="2"   transform="rotate(90)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(120)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(150)"/>
-        <line x1="104" y1="0" x2="110" y2="0" stroke-width="2"   transform="rotate(180)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(210)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(240)"/>
-        <line x1="104" y1="0" x2="110" y2="0" stroke-width="2"   transform="rotate(270)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(300)"/>
-        <line x1="106" y1="0" x2="110" y2="0" stroke-width="1.5" transform="rotate(330)"/>
+      <!-- 8 tiny optical crosshair circles scattered around -->
+      <g fill="none" stroke="url(#scatter-grad)" stroke-linecap="round">
+        <g transform="translate(220,200)">
+          <circle r="12" stroke-width="1.5"/><circle r="5" stroke-width="1.2"/>
+          <line x1="-16" y1="0" x2="16" y2="0" stroke-width="1"/>
+          <line x1="0" y1="-16" x2="0" y2="16" stroke-width="1"/>
+        </g>
+        <g transform="translate(555,355)">
+          <circle r="12" stroke-width="1.5"/><circle r="5" stroke-width="1.2"/>
+          <line x1="-16" y1="0" x2="16" y2="0" stroke-width="1"/>
+          <line x1="0" y1="-16" x2="0" y2="16" stroke-width="1"/>
+        </g>
+        <g transform="translate(905,225)">
+          <circle r="12" stroke-width="1.5"/><circle r="5" stroke-width="1.2"/>
+          <line x1="-16" y1="0" x2="16" y2="0" stroke-width="1"/>
+          <line x1="0" y1="-16" x2="0" y2="16" stroke-width="1"/>
+        </g>
+        <g transform="translate(1155,425)">
+          <circle r="12" stroke-width="1.5"/><circle r="5" stroke-width="1.2"/>
+          <line x1="-16" y1="0" x2="16" y2="0" stroke-width="1"/>
+          <line x1="0" y1="-16" x2="0" y2="16" stroke-width="1"/>
+        </g>
+        <g transform="translate(340,645)">
+          <circle r="12" stroke-width="1.5"/><circle r="5" stroke-width="1.2"/>
+          <line x1="-16" y1="0" x2="16" y2="0" stroke-width="1"/>
+          <line x1="0" y1="-16" x2="0" y2="16" stroke-width="1"/>
+        </g>
+        <g transform="translate(820,535)">
+          <circle r="12" stroke-width="1.5"/><circle r="5" stroke-width="1.2"/>
+          <line x1="-16" y1="0" x2="16" y2="0" stroke-width="1"/>
+          <line x1="0" y1="-16" x2="0" y2="16" stroke-width="1"/>
+        </g>
+        <g transform="translate(1300,725)">
+          <circle r="12" stroke-width="1.5"/><circle r="5" stroke-width="1.2"/>
+          <line x1="-16" y1="0" x2="16" y2="0" stroke-width="1"/>
+          <line x1="0" y1="-16" x2="0" y2="16" stroke-width="1"/>
+        </g>
+        <g transform="translate(1000,400)">
+          <circle r="12" stroke-width="1.5"/><circle r="5" stroke-width="1.2"/>
+          <line x1="-16" y1="0" x2="16" y2="0" stroke-width="1"/>
+          <line x1="0" y1="-16" x2="0" y2="16" stroke-width="1"/>
+        </g>
       </g>
-      <circle cx="428" cy="355" r="86" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5"/>
-      <circle cx="428" cy="355" r="64" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5"/>
-      <circle cx="428" cy="355" r="44" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5"/>
-      <circle cx="428" cy="355" r="28" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5"/>
-      <circle cx="428" cy="355" r="14" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5"/>
-      <line x1="412" y1="355" x2="444" y2="355" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
-      <line x1="428" y1="339" x2="428" y2="371" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
+    </svg>
+  </div>
 
-      <!-- ─── Phoropter bridge ───────────────────────────────────── -->
-      <!-- Gap: left 172+110=282, right 428-110=318 -->
-      <line x1="282" y1="338" x2="318" y2="338" fill="none" stroke="url(#vitrine-grad)" stroke-width="2"   stroke-linecap="round"/>
-      <line x1="282" y1="372" x2="318" y2="372" fill="none" stroke="url(#vitrine-grad)" stroke-width="2"   stroke-linecap="round"/>
-      <line x1="282" y1="338" x2="282" y2="372" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.8" stroke-linecap="round"/>
-      <line x1="318" y1="338" x2="318" y2="372" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.8" stroke-linecap="round"/>
-      <!-- Nose rest arc -->
-      <path d="M 282 372 Q 300 398 318 372" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- ② Left-side main art — prominent premium eyeglasses illustration -->
+  <div class="login-art" aria-hidden="true">
+    <svg viewBox="0 0 560 840" preserveAspectRatio="xMidYMid meet"
+         xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="art-grad" gradientUnits="userSpaceOnUse"
+                        x1="0" y1="0" x2="560" y2="840">
+          <stop offset="0%"   stop-color="#818CF8"/>
+          <stop offset="50%"  stop-color="#A78BFA"/>
+          <stop offset="100%" stop-color="#E879F9"/>
+        </linearGradient>
+      </defs>
 
-      <!-- ─── Antique round spectacles (Lennon / Harry Potter style) ─ -->
-      <!-- Left lens -->
-      <circle cx="192" cy="555" r="64" fill="none" stroke="url(#vitrine-grad)" stroke-width="2"/>
-      <circle cx="192" cy="555" r="56" fill="none" stroke="url(#vitrine-grad)" stroke-width="1"/>
-      <!-- Right lens -->
-      <circle cx="408" cy="555" r="64" fill="none" stroke="url(#vitrine-grad)" stroke-width="2"/>
-      <circle cx="408" cy="555" r="56" fill="none" stroke="url(#vitrine-grad)" stroke-width="1"/>
-      <!-- Bridge: 192+64=256 to 408-64=344 -->
-      <path d="M 256 547 Q 300 532 344 547" fill="none" stroke="url(#vitrine-grad)" stroke-width="2" stroke-linecap="round"/>
+      <!-- Outer measurement ring -->
+      <circle cx="280" cy="440" r="228" fill="none" stroke="url(#art-grad)" stroke-width="0.9" opacity="0.4"/>
+      <g transform="translate(280,440)" fill="none" stroke="url(#art-grad)" stroke-linecap="round">
+        <line x1="220" y1="0" x2="228" y2="0" stroke-width="2.2" transform="rotate(0)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(15)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(30)"/>
+        <line x1="220" y1="0" x2="228" y2="0" stroke-width="2.2" transform="rotate(45)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(60)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(75)"/>
+        <line x1="220" y1="0" x2="228" y2="0" stroke-width="2.2" transform="rotate(90)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(105)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(120)"/>
+        <line x1="220" y1="0" x2="228" y2="0" stroke-width="2.2" transform="rotate(135)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(150)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(165)"/>
+        <line x1="220" y1="0" x2="228" y2="0" stroke-width="2.2" transform="rotate(180)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(195)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(210)"/>
+        <line x1="220" y1="0" x2="228" y2="0" stroke-width="2.2" transform="rotate(225)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(240)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(255)"/>
+        <line x1="220" y1="0" x2="228" y2="0" stroke-width="2.2" transform="rotate(270)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(285)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(300)"/>
+        <line x1="220" y1="0" x2="228" y2="0" stroke-width="2.2" transform="rotate(315)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(330)"/>
+        <line x1="223" y1="0" x2="228" y2="0" stroke-width="1.3" transform="rotate(345)"/>
+      </g>
+
+      <!-- Inner ring -->
+      <circle cx="280" cy="440" r="175" fill="none" stroke="url(#art-grad)" stroke-width="0.6" opacity="0.2"/>
+
+      <!-- Optical axis lines -->
+      <line x1="280" y1="212" x2="280" y2="668" fill="none" stroke="url(#art-grad)" stroke-width="0.8" opacity="0.15"/>
+      <line x1="52"  y1="440" x2="508" y2="440" fill="none" stroke="url(#art-grad)" stroke-width="0.8" opacity="0.15"/>
+
+      <!-- Top focal point mark -->
+      <circle cx="280" cy="275" r="16" fill="none" stroke="url(#art-grad)" stroke-width="1.5" opacity="0.75"/>
+      <circle cx="280" cy="275" r="7"  fill="none" stroke="url(#art-grad)" stroke-width="1.2" opacity="0.75"/>
+      <circle cx="280" cy="275" r="2.2" fill="url(#art-grad)" opacity="0.7"/>
+      <line x1="280" y1="255" x2="280" y2="259" fill="none" stroke="url(#art-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="280" y1="291" x2="280" y2="295" fill="none" stroke="url(#art-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="260" y1="275" x2="264" y2="275" fill="none" stroke="url(#art-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="296" y1="275" x2="300" y2="275" fill="none" stroke="url(#art-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+      <line x1="280" y1="291" x2="280" y2="398" fill="none" stroke="url(#art-grad)" stroke-width="0.9" stroke-linecap="round" opacity="0.2" stroke-dasharray="4 7"/>
+
+      <!-- ── Premium eyeglasses frame ── -->
+      <!-- Left lens: x=35 y=398 w=188 h=122 rx=22, right edge=223 -->
+      <rect x="35"  y="398" width="188" height="122" rx="22" ry="22"
+            fill="none" stroke="url(#art-grad)" stroke-width="3.5"/>
+      <rect x="48"  y="411" width="162" height="96"  rx="15" ry="15"
+            fill="none" stroke="url(#art-grad)" stroke-width="1" opacity="0.38"/>
+      <circle cx="129" cy="459" r="5" fill="none" stroke="url(#art-grad)" stroke-width="1.2" opacity="0.5"/>
+      <line x1="118" y1="459" x2="140" y2="459" fill="none" stroke="url(#art-grad)" stroke-width="1" stroke-linecap="round" opacity="0.38"/>
+      <line x1="129" y1="448" x2="129" y2="470" fill="none" stroke="url(#art-grad)" stroke-width="1" stroke-linecap="round" opacity="0.38"/>
+
+      <!-- Right lens: x=337 y=398 w=188 h=122 rx=22, left edge=337 -->
+      <rect x="337" y="398" width="188" height="122" rx="22" ry="22"
+            fill="none" stroke="url(#art-grad)" stroke-width="3.5"/>
+      <rect x="350" y="411" width="162" height="96"  rx="15" ry="15"
+            fill="none" stroke="url(#art-grad)" stroke-width="1" opacity="0.38"/>
+      <circle cx="431" cy="459" r="5" fill="none" stroke="url(#art-grad)" stroke-width="1.2" opacity="0.5"/>
+      <line x1="420" y1="459" x2="442" y2="459" fill="none" stroke="url(#art-grad)" stroke-width="1" stroke-linecap="round" opacity="0.38"/>
+      <line x1="431" y1="448" x2="431" y2="470" fill="none" stroke="url(#art-grad)" stroke-width="1" stroke-linecap="round" opacity="0.38"/>
+
+      <!-- Bridge: left edge 223, right edge 337 -->
+      <path d="M 223 446 Q 280 418 337 446"
+            fill="none" stroke="url(#art-grad)" stroke-width="2.8" stroke-linecap="round"/>
+
+      <!-- Nose pad arms + tips -->
+      <path d="M 226 456 Q 218 469 224 478" fill="none" stroke="url(#art-grad)" stroke-width="1.4" stroke-linecap="round"/>
+      <path d="M 334 456 Q 342 469 336 478" fill="none" stroke="url(#art-grad)" stroke-width="1.4" stroke-linecap="round"/>
+      <ellipse cx="223" cy="479" rx="4" ry="3" fill="none" stroke="url(#art-grad)" stroke-width="1.2" opacity="0.6"/>
+      <ellipse cx="337" cy="479" rx="4" ry="3" fill="none" stroke="url(#art-grad)" stroke-width="1.2" opacity="0.6"/>
+
+      <!-- Left hinge -->
+      <rect x="26" y="430" width="11" height="16" rx="2"
+            fill="none" stroke="url(#art-grad)" stroke-width="1.8"/>
+      <circle cx="31.5" cy="435" r="1.3" fill="url(#art-grad)" opacity="0.7"/>
+      <circle cx="31.5" cy="441" r="1.3" fill="url(#art-grad)" opacity="0.7"/>
+
+      <!-- Right hinge -->
+      <rect x="523" y="430" width="11" height="16" rx="2"
+            fill="none" stroke="url(#art-grad)" stroke-width="1.8"/>
+      <circle cx="528.5" cy="435" r="1.3" fill="url(#art-grad)" opacity="0.7"/>
+      <circle cx="528.5" cy="441" r="1.3" fill="url(#art-grad)" opacity="0.7"/>
+
       <!-- Temple arms -->
-      <path d="M 128 555 Q 68 555 46 576"  fill="none" stroke="url(#vitrine-grad)" stroke-width="2" stroke-linecap="round"/>
-      <path d="M 472 555 Q 532 555 554 576" fill="none" stroke="url(#vitrine-grad)" stroke-width="2" stroke-linecap="round"/>
-      <!-- Hinge details -->
-      <rect x="124" y="550" width="8" height="10" rx="1" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.3"/>
-      <rect x="468" y="550" width="8" height="10" rx="1" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.3"/>
+      <path d="M 35 449 L 10 449 Q 0 449 0 443"
+            fill="none" stroke="url(#art-grad)" stroke-width="2.8" stroke-linecap="round"/>
+      <path d="M 525 449 L 550 449 Q 560 449 560 443"
+            fill="none" stroke="url(#art-grad)" stroke-width="2.8" stroke-linecap="round"/>
 
-      <!-- ─── Snellen eye chart ──────────────────────────────────── -->
-      <rect x="120" y="680" width="360" height="200" rx="5" fill="none" stroke="url(#vitrine-grad)" stroke-width="1.8"/>
-      <!-- Header separator -->
-      <line x1="120" y1="706" x2="480" y2="706" fill="none" stroke="url(#vitrine-grad)" stroke-width="1"/>
-      <!-- "SNELLEN" title -->
-      <text x="300" y="698" text-anchor="middle"
-            font-family="'Georgia','Times New Roman',serif" font-size="11" letter-spacing="4"
-            fill="none" stroke="url(#vitrine-grad)" stroke-width="0.8">SNELLEN</text>
-      <!-- Letters in descending size — E F P T O Z -->
-      <text x="300" y="748" text-anchor="middle"
-            font-family="'Georgia','Times New Roman',serif" font-size="44" font-weight="400"
-            fill="none" stroke="url(#vitrine-grad)" stroke-width="1.8">E</text>
-      <text x="300" y="782" text-anchor="middle"
-            font-family="'Georgia','Times New Roman',serif" font-size="30" font-weight="400"
-            letter-spacing="12"
-            fill="none" stroke="url(#vitrine-grad)" stroke-width="1.5">FP</text>
-      <text x="300" y="812" text-anchor="middle"
-            font-family="'Georgia','Times New Roman',serif" font-size="22" font-weight="400"
-            letter-spacing="10"
-            fill="none" stroke="url(#vitrine-grad)" stroke-width="1.3">TOZ</text>
-      <text x="300" y="834" text-anchor="middle"
-            font-family="'Georgia','Times New Roman',serif" font-size="17" font-weight="400"
-            letter-spacing="7"
-            fill="none" stroke="url(#vitrine-grad)" stroke-width="1.2">LPED</text>
-      <text x="300" y="853" text-anchor="middle"
-            font-family="'Georgia','Times New Roman',serif" font-size="13" font-weight="400"
-            letter-spacing="5"
-            fill="none" stroke="url(#vitrine-grad)" stroke-width="1.1">PECFD</text>
-      <text x="300" y="869" text-anchor="middle"
-            font-family="'Georgia','Times New Roman',serif" font-size="10" font-weight="400"
-            letter-spacing="3"
-            fill="none" stroke="url(#vitrine-grad)" stroke-width="1">EDFCZP</text>
+      <!-- Lens reflection highlights -->
+      <path d="M 58 420 L 68 426" fill="none" stroke="url(#art-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+      <path d="M 62 413 L 62 425" fill="none" stroke="url(#art-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.38"/>
+      <path d="M 360 420 L 370 426" fill="none" stroke="url(#art-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+      <path d="M 364 413 L 364 425" fill="none" stroke="url(#art-grad)" stroke-width="1.5" stroke-linecap="round" opacity="0.38"/>
+
+      <!-- PD ruler -->
+      <line x1="75" y1="625" x2="485" y2="625" fill="none" stroke="url(#art-grad)" stroke-width="0.9" stroke-linecap="round" opacity="0.35"/>
+      <line x1="75"  y1="619" x2="75"  y2="631" fill="none" stroke="url(#art-grad)" stroke-width="1.6" stroke-linecap="round" opacity="0.45"/>
+      <line x1="177" y1="621" x2="177" y2="629" fill="none" stroke="url(#art-grad)" stroke-width="1.3" stroke-linecap="round" opacity="0.38"/>
+      <line x1="280" y1="619" x2="280" y2="631" fill="none" stroke="url(#art-grad)" stroke-width="1.6" stroke-linecap="round" opacity="0.45"/>
+      <line x1="383" y1="621" x2="383" y2="629" fill="none" stroke="url(#art-grad)" stroke-width="1.3" stroke-linecap="round" opacity="0.38"/>
+      <line x1="485" y1="619" x2="485" y2="631" fill="none" stroke="url(#art-grad)" stroke-width="1.6" stroke-linecap="round" opacity="0.45"/>
+      <text x="280" y="650" text-anchor="middle"
+            font-family="'Georgia','Times New Roman',serif" font-size="9" letter-spacing="4"
+            fill="none" stroke="url(#art-grad)" stroke-width="0.6" opacity="0.4">PUPILLARY  DISTANCE</text>
 
     </svg>
   </div>
 
-  <!-- Glassmorphic sign-in card — sits over the illustration -->
+  <!-- ③ Right-side frosted glass sign-in card -->
   <div class="login-card" role="main">
 
     <!-- Brand section -->

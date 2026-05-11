@@ -1,5 +1,4 @@
-/* ── Page wrapper ───────────────────────────────────────────────── */
-/* Default (mobile): flex-centered, no illustration                 */
+/* ── Page wrapper — gradient mesh, full-screen ───────────────────── */
 .login-wrapper {
   position: relative;
   display: flex;
@@ -9,7 +8,7 @@
   overflow: hidden;
   padding: var(--space-8) var(--space-4);
 
-  /* Light theme: warm cream base — illustration carries the color  */
+  /* Light theme: warm cream — original palette */
   background:
     radial-gradient(ellipse at 90% 100%, rgba(244, 114, 182, 0.18) 0%, transparent 50%),
     linear-gradient(180deg, #FFF8F1 0%, #F5F0FF 100%);
@@ -17,38 +16,45 @@
 }
 
 :host-context(.dark) .login-wrapper {
-  /* Dark theme: moody deep violet — neon lines will glow over this */
+  /* Dark theme: moody deep violet */
   background:
-    radial-gradient(ellipse at 10%  0%,  rgba(251, 146, 60,  0.12) 0%, transparent 55%),
-    radial-gradient(ellipse at 90% 100%, rgba(139, 92,  246, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 10%   0%,  rgba(251, 146,  60, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 100%,  rgba(139,  92, 246, 0.15) 0%, transparent 60%),
     linear-gradient(180deg, #1A1428 0%, #0F0A1F 100%);
   background-attachment: fixed;
 }
 
-/* ── Vintage illustration — hidden on mobile ────────────────────── */
-.login-illustration {
-  display: none;
+/* ── Full-screen scatter — tiny glasses peek through card ────────── */
+.login-scatter {
   position: absolute;
-  left: 0;
-  top: 0;
-  width: 55%;
-  height: 100%;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
 
-  svg {
-    width: 100%;
-    height: 100%;
-    /* Light theme: brand-gradient inks are crisp, clearly visible   */
-    opacity: 0.62;
-  }
+  svg { width: 100%; height: 100%; opacity: 0.12; }
 }
 
-/* Dark theme: neon glow over the deep base */
-:host-context(.dark) .login-illustration svg {
-  opacity: 0.50;
-  filter: drop-shadow(0 0 8px rgba(167, 139, 250, 0.4));
+:host-context(.dark) .login-scatter svg { opacity: 0.22; }
+
+/* ── Left-side main art — hidden on mobile ────────────────────────── */
+.login-art {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 58%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+
+  svg { width: 100%; height: 100%; opacity: 0.72; }
+}
+
+:host-context(.dark) .login-art svg {
+  opacity: 0.62;
+  filter: drop-shadow(0 0 22px rgba(167, 139, 250, 0.5));
 }
 
 /* ── Theme toggle ────────────────────────────────────────────────── */
@@ -84,24 +90,24 @@
   flex-direction: column;
   gap: var(--space-6);
 
-  /* Light theme glass: frosted white over warm cream base           */
-  background: rgba(255, 255, 255, 0.55);
-  backdrop-filter: blur(28px) saturate(160%);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  /* Light: very transparent frosted glass */
+  background: rgba(255, 255, 255, 0.10);
+  backdrop-filter: blur(2px) saturate(180%);
+  -webkit-backdrop-filter: blur(2px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.38);
   border-radius: 24px;
   box-shadow:
-    0 24px 48px rgba(99, 102, 241, 0.15),
+    0 8px 32px rgba(99, 102, 241, 0.12),
     0 1px 0 rgba(255, 255, 255, 0.70) inset;
 }
 
-/* Dark theme glass: translucent deep surface — illustration smears through */
+/* Dark: very transparent — art glows through */
 :host-context(.dark) .login-card {
-  background: rgba(20, 20, 32, 0.50);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(15, 10, 30, 0.18);
+  border-color: rgba(255, 255, 255, 0.10);
   box-shadow:
-    0 24px 48px rgba(0, 0, 0, 0.4),
-    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+    0 8px 32px rgba(0, 0, 0, 0.50),
+    0 1px 0 rgba(255, 255, 255, 0.06) inset;
 }
 
 /* ── Brand section ──────────────────────────────────────────────── */
@@ -213,25 +219,23 @@
   }
 }
 
-/* ── Desktop: side-by-side illustration + overlapping glass card ── */
+/* ── Desktop: art left, card right ───────────────────────────────── */
 @media (min-width: 768px) {
   .login-wrapper {
     padding: 0;
   }
 
-  .login-illustration {
+  .login-art {
     display: block;
   }
 
-  /* Card: absolutely positioned so its left edge overlaps            */
-  /* illustration by ~100px — this is where the vitrine effect lives  */
+  /* Card centred in the right 42% of the screen */
   .login-card {
     position: absolute;
-    /* min() prevents right-edge overflow on narrow desktop viewports  */
-    left: min(calc(55% - 100px), calc(100% - 480px));
+    left: 58%;
     top: 50%;
-    transform: translateY(-50%);
-    width: 460px;
+    transform: translate(-20%, -50%);
+    width: 440px;
     max-width: none;
   }
 }
